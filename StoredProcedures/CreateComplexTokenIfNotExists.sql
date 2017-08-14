@@ -2,7 +2,7 @@ USE ;
 GO
 
 CREATE PROCEDURE dbo.CreateComplexTokenIfNotExists
-   @TextValue varchar(100),
+   @CopmplexValue varchar(max),
    @Type varchar(50)
 AS
 
