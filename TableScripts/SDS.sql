@@ -3,7 +3,7 @@ GO
 
 /****** Object:  Database [SecureDataStore]    Script Date: 8/14/2017 1:08:56 PM ******/
 USE [master]
-IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ApplicationDataStore')
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'SecureDataStore')
 DROP DATABASE [SecureDataStore]
 GO
 
@@ -111,5 +111,7 @@ Values
 	,('CreditCardNumber')
 
 
+
+INSERT
 
 USE [master]
