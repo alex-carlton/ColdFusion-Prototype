@@ -14,14 +14,14 @@ CREATE DATABASE [SecureDataStore]
 ( NAME = N'SecureDataStore_log', FILENAME = N'C:\Program Files\Microsoft SQL Server 16\MSSQL13.MSSQLSERVER01\MSSQL\DATA\SecureDataStore_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
 
-ALTER DATABASE [SecureDataStore] SET COMPATIBILITY_LEVEL = 130
-GO
+-- ALTER DATABASE [SecureDataStore] SET COMPATIBILITY_LEVEL = 130
+-- GO
 
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [SecureDataStore].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
+-- IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+-- begin
+-- EXEC [SecureDataStore].[dbo].[sp_fulltext_database] @action = 'enable'
+-- end
+-- GO
 
 -- ALTER DATABASE [SecureDataStore] SET ANSI_NULL_DEFAULT OFF 
 -- GO
