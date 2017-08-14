@@ -1,0 +1,7 @@
+.menu li {
+	display: inline;
+}
+
+.menu li:not(:first-child):before {
+	content: " | ";
+}
