@@ -198,7 +198,7 @@ GO
 -- *********************************************************************************
 CREATE TABLE [dbo].[PiiComplex](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
-	[Data] [varchar(-1)] NOT NULL,
+	[Data] [varchar](max) NOT NULL,
 	[TimeStamp] [timestamp] NOT NULL,
 	[Type] [varchar](50) NULL,)
 GO
