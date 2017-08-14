@@ -14,6 +14,9 @@
 	</cffunction>
 
 	<cffunction name="onRequestStart">
+		<cfif isDefined('url.restartApp')>
+			<cfset this.onApplicationStart() />
+		</cfif>
 	</cffunction>			
 
 	

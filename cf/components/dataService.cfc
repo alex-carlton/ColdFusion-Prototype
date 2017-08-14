@@ -1,24 +1,60 @@
 <cfcomponent output="false">
-	<!---
-	<cfproperty name="greeting" type="string">
-	<cfproperty name="notGreeting" type="string">
-	<cfset this.greeting = "Hello" />
-	<cfset variables.notGreeting = "No hello" />
-	
-	<cffunction name="insertReview" access="remote" output="true" returntype="boolean">
-		<cfargument name="reviewName" required="true" type="string">
-		<cfargument name="reviewFeedback" required="true" type="string">
-		<cfargument name="reviewRating" required="true" type="numeric">
-		<cfargument name="reviewProductId" required="true" type="numeric">
+	<!--- Not sure what the type mapping is yet.
+	<cfset this.textType = "1">
+	<cfset this.dateType = "2">
+	<cfset this.complexType = "3"> --->
 
-		<cfstoredproc procedure="uspAddReview" datasource="AllStar">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#reviewName#">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#reviewProductId#">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="3850" value="#reviewFeedback#">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#reviewRating#">
-		</cfstoredproc>
+	<cffunction name="insertLoan" access="remote" output="true" returntype="boolean">
+		<cfargument name="name" required="true" type="string">
+		<cfargument name="ssn"	required="true" type="numeric">
+		<cfargument name="dob" required="true" type="date">
+
+		<!--- <cfstoredproc procedure="" datasource="">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="100" value="#ssn#">
+			<cfprocparam cfsqltype="CF_SQL_DATE" value="#dob#">
+
+			<cfprocresult name="loanResult">
+		</cfstoredproc> --->
 
 		<cfreturn true>
 	</cffunction>
-	--->
+
+	<cffunction name="insertCreditCheck" access="remote" output="true" returntype="boolean">
+		<cfargument name="name" required="true" type="string">
+		<cfargument name="xml"	required="true" type="xml">
+
+		<!--- <cfstoredproc procedure="" datasource="">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#xml#">
+
+			<cfprocresult name="creditCheckResult">
+		</cfstoredproc> --->
+
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="searchLoan" access="remote" output="true" returntype="boolean">
+		<cfargument name="name" required="true" type="string">
+
+		<!--- <cfstoredproc procedure="" datasource="">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
+
+			<cfprocresult name="loanSearchResult">
+		</cfstoredproc> --->
+
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="searchCreditCheck" access="remote" output="true" returntype="boolean">
+		<cfargument name="name" required="true" type="string">
+
+		<!--- <cfstoredproc procedure="" datasource="">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
+
+			<cfprocresult name="creditSearchResult">
+		</cfstoredproc> --->
+
+		<cfreturn true>
+	</cffunction>
 </cfcomponent>
