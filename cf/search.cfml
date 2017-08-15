@@ -1,17 +1,17 @@
 <cf_header>	
 	<cfif StructKeyExists(form, "ssnSearchSubmit")>
 		<cfset result = application.dataService.searchSSN(form.ssn) >
-		<cfif result >
-			<cfset message="Loan details to come...">
+		<cfif result EQ "">
+			<cfset message="No loan details found.">
 		<cfelse>
-			<cfset message="Failed.">
+			<cfset message="#result#">
 		</cfif>
 	<cfelseif structKeyExists(form, "dobSearchSubmit")>
 		<cfset result = application.dataService.searchDOB(form.dob) >
-		<cfif result >
-			<cfset message="Credit check details to come...">
+		<cfif result EQ "">
+			<cfset message="No loan details found.">
 		<cfelse>
-			<cfset message="Failed.">
+			<cfset message="#result#">
 		</cfif>
 	<cfelse>
 		<cfset message="">

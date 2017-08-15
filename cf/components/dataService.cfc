@@ -38,27 +38,39 @@
 		<cfreturn true>
 	</cffunction>
 
-	<cffunction name="searchSSN" access="remote" output="true" returntype="boolean">
+	<cffunction name="searchSSN" access="remote" output="true" returntype="string">
 		<cfargument name="ssn" required="true" type="string">
+		
+		<cfstoredproc procedure="CreateTextTokenIfNotExists" datasource="SDS">
+			<cfprocparam type="in" cfsqltype="CF_SQL_VARCHAR" maxlength="9" value="#ssn#">
+			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="1">
+			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="ssnToken">	
+		</cfstoredproc>
 
-		<!--- <cfstoredproc procedure="" datasource="">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
+		<cfstoredproc procedure="SearchLoanApplicationSSN" datasource="SDS" result="ssnLoanResult">
+			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnToken#">
 
-			<cfprocresult name="loanSearchResult">
-		</cfstoredproc> --->
+			<cfprocresult name="ssnLoanResult">
+		</cfstoredproc>
 
-		<cfreturn false>
+		<cfreturn ssnLoanResult[0].name>
 	</cffunction>
 
-	<cffunction name="searchDOB" access="remote" output="true" returntype="boolean">
+	<cffunction name="searchDOB" access="remote" output="true" returntype="string">
 		<cfargument name="dob" required="true" type="date">
 
-		<!--- <cfstoredproc procedure="" datasource="">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
+		<cfstoredproc procedure="CreateTDateTokenIfNotExists" datasource="SDS">
+			<cfprocparam type="in" cfsqltype="CF_SQL_DATE" value="#dob#">
+			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="2">
+			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="dobToken">	
+		</cfstoredproc>
 
-			<cfprocresult name="creditSearchResult">
-		</cfstoredproc> --->
+		<cfstoredproc procedure="SearchLoanApplicationDOB" datasource="SDS" result="dobLoanResult">
+			<cfprocparam cfsqltype="CF_SQL_DATE" value="#dobToken#">
 
-		<cfreturn false>
+			<cfprocresult name="dobLoanResult">
+		</cfstoredproc>
+
+		<cfreturn dobLoanResult[0].name>
 	</cffunction>
 </cfcomponent>
