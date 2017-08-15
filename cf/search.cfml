@@ -4,14 +4,14 @@
 		<cfif result EQ "">
 			<cfset message="No loan details found.">
 		<cfelse>
-			<cfset message="#result#">
+			<cfset message="Found: #result#">
 		</cfif>
 	<cfelseif structKeyExists(form, "dobSearchSubmit")>
 		<cfset result = application.dataService.searchDOB(form.dob) >
 		<cfif result EQ "">
 			<cfset message="No loan details found.">
 		<cfelse>
-			<cfset message="#result#">
+			<cfset message="Found: #result#">
 		</cfif>
 	<cfelse>
 		<cfset message="">

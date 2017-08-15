@@ -47,30 +47,30 @@
 			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="ssnToken">	
 		</cfstoredproc>
 
-		<cfstoredproc procedure="SearchLoanApplicationSSN" datasource="SDS" result="ssnLoanResult">
+		<cfstoredproc procedure="secure.SearchLoanApplicationSSN" datasource="ADS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnToken#">
 
 			<cfprocresult name="ssnLoanResult">
 		</cfstoredproc>
 
-		<cfreturn ssnLoanResult[0].name>
+		<cfreturn ssnLoanResult.recordCount>
 	</cffunction>
 
 	<cffunction name="searchDOB" access="remote" output="true" returntype="string">
 		<cfargument name="dob" required="true" type="date">
 
-		<cfstoredproc procedure="CreateTDateTokenIfNotExists" datasource="SDS">
+		<cfstoredproc procedure="CreateDateTokenIfNotExists" datasource="SDS">
 			<cfprocparam type="in" cfsqltype="CF_SQL_DATE" value="#dob#">
 			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="2">
 			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="dobToken">	
 		</cfstoredproc>
 
-		<cfstoredproc procedure="SearchLoanApplicationDOB" datasource="SDS" result="dobLoanResult">
-			<cfprocparam cfsqltype="CF_SQL_DATE" value="#dobToken#">
+		<cfstoredproc procedure="secure.SearchLoanApplicationDOB" datasource="ADS">
+			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#dobToken#">
 
 			<cfprocresult name="dobLoanResult">
 		</cfstoredproc>
 
-		<cfreturn dobLoanResult[0].name>
+		<cfreturn dobLoanResult.recordCount>
 	</cffunction>
 </cfcomponent>
