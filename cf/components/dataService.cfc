@@ -1,9 +1,4 @@
 <cfcomponent output="false">
-	<!--- Not sure what the type mapping is yet.
-	<cfset this.textType = "1">
-	<cfset this.dateType = "2">
-	<cfset this.complexType = "3"> --->
-
 	<cffunction name="insertLoan" access="remote" output="true" returntype="boolean">
 		<cfargument name="name" required="true" type="string">
 		<cfargument name="ssn"	required="true" type="numeric">
