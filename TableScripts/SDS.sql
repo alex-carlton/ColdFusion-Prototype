@@ -20,10 +20,11 @@ GO
 -- Create Pii Text Table
 -- *********************************************************************************
 CREATE TABLE [dbo].[SecureText](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Key] [bigint] IDENTITY(1,1) NOT NULL,
 	[Data] [varchar](100) NOT NULL,
 	[TimeStamp] [timestamp] NOT NULL,
-	[Type] [int] NOT NULL,)
+	[Type] [int] NOT NULL,
+	)
 GO
 
 -- Create Pii Text indexes
@@ -36,7 +37,7 @@ GO
 
 CREATE UNIQUE CLUSTERED INDEX [idCluster] ON [dbo].[SecureText]
 (
-	[Id] ASC
+	[Key] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
@@ -45,7 +46,7 @@ GO
 -- Create Pii Date Table
 -- *********************************************************************************
 CREATE TABLE [dbo].[SecureDate](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Key] [bigint] IDENTITY(1,1) NOT NULL,
 	[Data] [date] NOT NULL,
 	[TimeStamp] [timestamp] NOT NULL,
 	[Type] [int] NULL,)
@@ -61,7 +62,7 @@ GO
 
 CREATE UNIQUE CLUSTERED INDEX [idCluster] ON [dbo].[SecureDate]
 (
-	[Id] ASC
+	[Key] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
@@ -70,7 +71,7 @@ GO
 -- Create Pii DComplex ate Table
 -- *********************************************************************************
 CREATE TABLE [dbo].[SecureComplex](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Key] [bigint] IDENTITY(1,1) NOT NULL,
 	[Data] [varchar](max) NOT NULL,
 	[TimeStamp] [timestamp] NOT NULL,
 	[Type] [int] NULL,)
@@ -86,7 +87,7 @@ GO
 
 CREATE UNIQUE CLUSTERED INDEX [idCluster] ON [dbo].[SecureComplex]
 (
-	[Id] ASC
+	[Key] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
@@ -107,11 +108,35 @@ Values
 	('SSN')
 	,('DOB')
 	,('DriversLicense')
-	,('DriversLicense')
 	,('CreditCardNumber')
 
 
 
-INSERT
+INSERT INTO SecureText([Data], [Type])
+VALUES
+	('067152444', 1)
+	,('760523518', 1)
+	,('364346220', 3)
+	,('716650788', 1)
+	,('280767466', 1)
+	,('842477663', 3)
+	,('100230416', 1)
+	,('483884486', 1)
+	,('4040123459328367', 4)
+
+
+
+INSERT INTO SecureDate([Data], [Type])
+VALUES
+	('1999-06-12', 2)
+	,('1989-09-25', 2)
+	,('1950-08-15', 2)
+	,('1940-06-20', 2)
+	,('1991-06-30', 2)
+	,('1987-02-28', 2)
+	,('1957-03-03', 2)
+	,('1977-01-30', 2)
+	,('1969-05-20', 2)
+
 
 USE [master]
