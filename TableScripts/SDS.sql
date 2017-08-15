@@ -1,16 +1,19 @@
 USE [master]
 GO
 
-/****** Object:  Database [SecureDataStore]    Script Date: 8/14/2017 1:08:56 PM ******/
+-- *********************************************************************************
+-- DROP Existing DB
+-- *********************************************************************************
 USE [master]
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'SecureDataStore')
 DROP DATABASE [SecureDataStore]
 GO
 
-/****** Object:  Database [SecureDataStore]    Script Date: 8/14/2017 1:08:56 PM ******/
+-- *********************************************************************************
+-- Create SDS
+-- *********************************************************************************
 CREATE DATABASE [SecureDataStore]
 GO
-
  USE [SecureDataStore]
  GO
 
@@ -143,11 +146,11 @@ VALUES
 INSERT INTO SecureComplex([Data], [Type])
 VALUES
 	 ('{"CreditRequest": {"firstname": "George","lastname": "Washington","ssn": "067152444","dob": "1932-02-22"}}', 4)
-	,('{"CreditRequest": {"firstname": "Abraham","lastname": "Lincoln","ssn": "067152444","dob": "1909-02-12"}}', 4)
-	,('{"CreditRequest": {"firstname": "Mark","lastname": "Twain","ssn": "067152444","dob": "1935-10-30"}}', 4)
-	,('{"CreditRequest": {"firstname": "Henry","lastname": "Ford","ssn": "067152444","dob": "1963-07-30"}}', 4)
-	,('{"CreditRequest": {"firstname": "Humphry","lastname": "Bogart","ssn": "067152444","dob": "1999-12-25"}}', 4)
-	,('{"CreditRequest": {"firstname": "Elvis","lastname": "Presley","ssn": "067152444","dob": "1935-01-08"}}', 4)
+	,('{"CreditRequest": {"firstname": "Abraham","lastname": "Lincoln","ssn": "760523518","dob": "1909-02-12"}}', 4)
+	,('{"CreditRequest": {"firstname": "Mark","lastname": "Twain","ssn": "716650788","dob": "1935-10-30"}}', 4)
+	,('{"CreditRequest": {"firstname": "Henry","lastname": "Ford","ssn": "280767466","dob": "1963-07-30"}}', 4)
+	,('{"CreditRequest": {"firstname": "Humphrey","lastname": "Bogart","ssn": "100230416","dob": "1999-12-25"}}', 4)
+	,('{"CreditRequest": {"firstname": "Elvis","lastname": "Presley","ssn": "483884486","dob": "1935-01-08"}}', 4)
 
 
 
