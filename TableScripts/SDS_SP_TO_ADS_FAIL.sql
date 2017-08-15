@@ -1,0 +1,14 @@
+
+USE SecureDataStore
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE TestFAIL
+
+AS
+BEGIN
+	EXEC ApplicationDataStore.dbo.TestNoSchemaCallFromSDS
+END
+GO
