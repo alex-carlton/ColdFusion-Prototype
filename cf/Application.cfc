@@ -1,7 +1,6 @@
 <cfcomponent output="false">
 	<cfset this.customTagPaths = expandPath('/ColdFusion-Prototype/cf/customTags') />
 	<!---<cfset application.dsname="">--->
-	<!---<cfset request.dsname="">--->
 
 	<cffunction name="onApplicationStart" returntype="boolean" >
 		<cfset application.dataService = createObject("component",'ColdFusion-Prototype.cf.components.dataService') />
