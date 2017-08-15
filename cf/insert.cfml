@@ -3,11 +3,15 @@
 		<cfset result = application.dataService.insertLoan(form.name, form.ssn, form.dob) >
 		<cfif result >
 			<cfset message="Loan inserted successful.">
+		<cfelse>
+			<cfset message="Loan inserted failed.">
 		</cfif>
 	<cfelseif structKeyExists(form, "creditSubmit")>
 		<cfset result = application.dataService.insertCreditCheck(form.name, form.xml) >
 		<cfif result >
 			<cfset message="Credit check inserted successfully.">
+		<cfelse>
+			<cfset message="Credit check inserted failed.">
 		</cfif>
 	<cfelse>
 		<cfset message="">
@@ -35,7 +39,7 @@
 				<label>Name:</label>
 				<input type="text" name="name" required>
 				<label>Credit Check XML:</label>
-				<input type="text" name="xml" required>
+				<input type="text" name="xml" value="<credit><card>1234</card></credit>" required>
 				<input class="btn" type="submit" name="creditSubmit" value="Submit">
 			</form>
 		</div>
