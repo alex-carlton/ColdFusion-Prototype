@@ -2,7 +2,6 @@ USE [master]
 GO
 
 /****** Object:  Database [ApplicationDataStore]    Script Date: 8/14/2017 2:35:57 PM ******/
-USE [master]
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ApplicationDataStore')
 BEGIN
 	ALTER DATABASE [ApplicationDataStore]
