@@ -1,7 +1,8 @@
 <cf_header>
 	<cfif StructKeyExists(form, "loanSubmit")>
 		<cfset result = application.dataService.insertLoan(form.name, form.ssn, form.dob) >
-		<cfif result >
+	
+		<cfif result>
 			<cfset message="Loan inserted successful.">
 		<cfelse>
 			<cfset message="Loan inserted failed.">
