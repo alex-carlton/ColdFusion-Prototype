@@ -1,8 +1,8 @@
 USE ;
 GO
 
-CREATE PROCEDURE dbo.CreateComplexTokenIfNotExists
-   @CopmplexValue varchar(max),
+CREATE PROCEDURE dbo.GetComplexValue
+   @id bigint(),
    @Type varchar(50)
 AS
 
