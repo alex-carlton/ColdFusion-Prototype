@@ -1,16 +1,16 @@
 USE ApplicationDataStore;
 GO
 
-IF(OBJECT_ID('SearchLoanApplication')) is NOT NULL
-    DROP PROCEDURE SearchLoanApplication
+IF(OBJECT_ID('secure.SearchLoanApplication')) is NOT NULL
+    DROP PROCEDURE secure.SearchLoanApplication
 GO
 
-CREATE PROCEDURE SearchLoanApplication
+CREATE PROCEDURE secure.SearchLoanApplication
    @SSNToken BIGINT
 AS
 
-	SELECT LA.[Name], LA.[DOB Token]
+	SELECT LA.[Name], LA.DOBToken
 	FROM ApplicationDataStore.dbo.LoanApplication AS LA
-	WHERE LA.[SSN Token] = @SSNToken
+	WHERE LA.SSNToken = @SSNToken
 
 GO
