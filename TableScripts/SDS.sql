@@ -109,6 +109,7 @@ Values
 	,('DOB')
 	,('DriversLicense')
 	,('CreditCardNumber')
+	,('CreditRequest')
 
 
 
@@ -137,6 +138,22 @@ VALUES
 	,('1957-03-03', 2)
 	,('1977-01-30', 2)
 	,('1969-05-20', 2)
+
+
+INSERT INTO SecureComplex([Data], [Type])
+VALUES
+	 ('{"CreditRequest": {"firstname": "George","lastname": "Washington","ssn": "067152444","dob": "1932-02-22"}}', 4)
+	,('{"CreditRequest": {"firstname": "Abraham","lastname": "Lincoln","ssn": "067152444","dob": "1909-02-12"}}', 4)
+	,('{"CreditRequest": {"firstname": "Mark","lastname": "Twain","ssn": "067152444","dob": "1935-10-30"}}', 4)
+	,('{"CreditRequest": {"firstname": "Henry","lastname": "Ford","ssn": "067152444","dob": "1963-07-30"}}', 4)
+	,('{"CreditRequest": {"firstname": "Humphry","lastname": "Bogart","ssn": "067152444","dob": "1999-12-25"}}', 4)
+	,('{"CreditRequest": {"firstname": "Elvis","lastname": "Presley","ssn": "067152444","dob": "1935-01-08"}}', 4)
+
+
+
+
+
+
 
 
 USE [master]
