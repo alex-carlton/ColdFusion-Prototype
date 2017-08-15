@@ -7,7 +7,8 @@ GO
 
 CREATE PROCEDURE CreateDateTokenIfNotExists
    @DateValue DATE,
-   @Type INT
+   @Type INT,
+   @DateToken BIGINT OUTPUT
 AS
     -- Create local variable
     DECLARE @count INT
@@ -21,13 +22,18 @@ AS
     IF(@count = 0)
         BEGIN
             INSERT INTO dbo.SecureDate([Data], [Type])
-            OUTPUT INSERTED.[Key]
             VALUES (@DateValue, @Type)
+			SET @DateToken = SCOPE_IDENTITY()
         END
     ELSE
-        SELECT SD.[Key]
+        SELECT @DateToken = SD.[Key]
         FROM dbo.SecureDate AS SD
         WHERE SD.[Data] = @DateValue;
+
+	select @DateToken
 GO
 
---EXEC dbo.CreateDateTokenIfNotExists '20081220', 2
+-- Create out variable
+DECLARE @out BIGINT
+EXEC dbo.CreateDateTokenIfNotExists '1987-06-15', 2, @out
+SELECT @out
