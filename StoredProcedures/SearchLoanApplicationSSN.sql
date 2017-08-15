@@ -1,11 +1,11 @@
 USE ApplicationDataStore;
 GO
 
-IF(OBJECT_ID('secure.SearchLoanApplication')) is NOT NULL
-    DROP PROCEDURE secure.SearchLoanApplication
+IF(OBJECT_ID('secure.SearchLoanApplicationSSN')) is NOT NULL
+    DROP PROCEDURE secure.SearchLoanApplicationSSN
 GO
 
-CREATE PROCEDURE secure.SearchLoanApplication
+CREATE PROCEDURE secure.SearchLoanApplicationSSN
    @SSNToken BIGINT
 AS
 
