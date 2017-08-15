@@ -2,9 +2,13 @@ USE [master]
 GO
 
 /****** Object:  Database [ApplicationDataStore]    Script Date: 8/14/2017 2:35:57 PM ******/
-USE [master]
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ApplicationDataStore')
-DROP DATABASE [ApplicationDataStore]
+BEGIN
+	ALTER DATABASE [ApplicationDataStore]
+	SET SINGLE_USER
+	WITH ROLLBACK IMMEDIATE
+	DROP DATABASE [ApplicationDataStore]
+END
 GO
 
 /****** Object:  Database [ApplicationDataStore]    Script Date: 8/14/2017 2:35:57 PM ******/

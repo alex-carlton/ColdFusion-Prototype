@@ -18,7 +18,7 @@ BEGIN
 	EXEC SecureDataStore.dbo.CreateTextTokenIfNotExists @SSN, 1, @SSNToken OUTPUT
 	EXEC SecureDataStore.dbo.CreateDateTokenIfNotExists @DateOfBirth, 2, @DateOfBirthToken OUTPUT
 
-	EXEC ApplicationDataStore.dbo.InsertLoanApplicationTokens @Name, @DateOfBirthToken, @SSNToken
+	EXEC ApplicationDataStore.secure.InsertLoanApplicationTokens @Name, @DateOfBirthToken, @SSNToken
 
 END
 GO
