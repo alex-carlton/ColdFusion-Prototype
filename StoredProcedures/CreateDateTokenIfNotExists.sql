@@ -1,14 +1,33 @@
-USE ;
+USE SecureDataStore;
 GO
 
-CREATE PROCEDURE dbo.CreateDateTokenIfNotExists
-   @DateValue date(),
-   @Type varchar(50)
+IF(OBJECT_ID('CreateDateTokenIfNotExists')) is NOT NULL
+    DROP PROCEDURE CreateDateTokenIfNotExists
+GO
+
+CREATE PROCEDURE CreateDateTokenIfNotExists
+   @DateValue DATE,
+   @Type INT
 AS
+    -- Create local variable
+    DECLARE @count INT
 
-   SET NOCOUNT ON;
+    --Check to see if there is any value in the table for the provided input.
+    SELECT @count = COUNT(SD.[Key])
+    FROM dbo.SecureDate AS SD
+    WHERE SD.[Data] = @DateValue
 
-   SELECT
-   FROM
-   WHERE ;
+    --Conditional for Inserting
+    IF(@count = 0)
+        BEGIN
+            INSERT INTO dbo.SecureDate([Data], [Type])
+            OUTPUT INSERTED.[Key]
+            VALUES (@DateValue, @Type)
+        END
+    ELSE
+        SELECT SD.[Key]
+        FROM dbo.SecureDate AS SD
+        WHERE SD.[Data] = @DateValue;
 GO
+
+--EXEC dbo.CreateDateTokenIfNotExists '20081220', 2
