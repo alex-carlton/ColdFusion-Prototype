@@ -8,7 +8,7 @@ GO
 CREATE PROCEDURE CreateTextTokenIfNotExists
    @TextValue VARCHAR(100),
    @Type INT,
-   @TextToken BIGINT OUT
+   @TextToken BIGINT OUTPUT
 AS
     -- Create local variable
     DECLARE @count INT
@@ -16,7 +16,7 @@ AS
     --Check to see if there is any value in the table for the provided input.
     SELECT @count = COUNT(ST.[Key])
     FROM dbo.[SecureText] AS ST
-    WHERE ST.[Data] = @TextValue
+    WHERE ST.[Data] = @TextValue AND ST.[Type] = @Type
 
     --Conditional for Inserting
     IF(@count = 0)
@@ -29,8 +29,8 @@ AS
         SELECT @TextToken = ST.[Key]
         FROM dbo.SecureText AS ST
         WHERE ST.[Data] = @TextValue;
-
-	SELECT @TextToken
 GO
 
---EXEC dbo.CreateTextTokenIfNotExists '555555555', 1
+--DECLARE @out BIGINT
+--EXEC dbo.CreateTextTokenIfNotExists '555555555', 1, @out OUTPUT
+--SELECT @out

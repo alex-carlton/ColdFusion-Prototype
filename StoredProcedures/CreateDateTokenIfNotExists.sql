@@ -16,7 +16,7 @@ AS
     --Check to see if there is any value in the table for the provided input.
     SELECT @count = COUNT(SD.[Key])
     FROM dbo.SecureDate AS SD
-    WHERE SD.[Data] = @DateValue
+    WHERE SD.[Data] = @DateValue AND SD.[Type] = @Type
 
     --Conditional for Inserting
     IF(@count = 0)
@@ -29,11 +29,8 @@ AS
         SELECT @DateToken = SD.[Key]
         FROM dbo.SecureDate AS SD
         WHERE SD.[Data] = @DateValue;
-
-	select @DateToken
 GO
 
--- Create out variable
-DECLARE @out BIGINT
-EXEC dbo.CreateDateTokenIfNotExists '1987-06-15', 2, @out
-SELECT @out
+--DECLARE @out BIGINT
+--EXEC dbo.CreateDateTokenIfNotExists '1987-06-15', 2, @out OUTPUT
+--SELECT @out
