@@ -23,6 +23,6 @@ BEGIN
 END
 GO
 
---EXEC InsertLoanApplication Alex, '1987-06-15', '555555555'
+--EXEC InsertLoanApplication 'Alex', '1987-06-15', '555555555'
 
 
