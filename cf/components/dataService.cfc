@@ -12,7 +12,7 @@
 			<cfprocresult name="loanResult">
 		</cfstoredproc> --->
 
-		<cfreturn true>
+		<cfreturn false>
 	</cffunction>
 
 	<cffunction name="insertCreditCheck" access="remote" output="true" returntype="boolean">
@@ -26,11 +26,11 @@
 			<cfprocresult name="creditCheckResult">
 		</cfstoredproc> --->
 
-		<cfreturn true>
+		<cfreturn false>
 	</cffunction>
 
-	<cffunction name="searchLoan" access="remote" output="true" returntype="boolean">
-		<cfargument name="name" required="true" type="string">
+	<cffunction name="searchSSN" access="remote" output="true" returntype="boolean">
+		<cfargument name="ssn" required="true" type="string">
 
 		<!--- <cfstoredproc procedure="" datasource="">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
@@ -38,11 +38,11 @@
 			<cfprocresult name="loanSearchResult">
 		</cfstoredproc> --->
 
-		<cfreturn true>
+		<cfreturn false>
 	</cffunction>
 
-	<cffunction name="searchCreditCheck" access="remote" output="true" returntype="boolean">
-		<cfargument name="name" required="true" type="string">
+	<cffunction name="searchDOB" access="remote" output="true" returntype="boolean">
+		<cfargument name="dob" required="true" type="date">
 
 		<!--- <cfstoredproc procedure="" datasource="">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
@@ -50,6 +50,6 @@
 			<cfprocresult name="creditSearchResult">
 		</cfstoredproc> --->
 
-		<cfreturn true>
+		<cfreturn false>
 	</cffunction>
 </cfcomponent>
