@@ -29,7 +29,7 @@
 				<label>Name:</label>
 				<input type="text" name="name" required>
 				<label>SSN:</label>
-				<input type="text" name="ssn" placeholder="12345678" required>
+				<input type="text" name="ssn" placeholder="123456789" required>
 				<label>DOB:</label>
 				<input type="date" name="dob" required>
 				<input class="btn" type="submit" name="loanSubmit" value="Submit">
