@@ -1,17 +1,17 @@
 USE ApplicationDataStore;
 GO
 
-IF(OBJECT_ID('secure.InsertCreditCheckToken')) is NOT NULL
-    DROP PROCEDURE secure.InsertCreditCheckToken
+IF(OBJECT_ID('InsertCreditCheckToken')) is NOT NULL
+    DROP PROCEDURE InsertCreditCheckToken
 GO
 
-CREATE PROCEDURE secure.InsertCreditCheckToken
+CREATE PROCEDURE InsertCreditCheckToken
    @Name NVARCHAR(50),
    @CreditRequestToken BIGINT
 AS
 BEGIN
 
-   INSERT INTO dbo.CreditCheck([Name],[CreditRequestToken])
+   INSERT INTO dbo.CreditCheck([Name],[CreditRequest Token])
    VALUES (@Name, @CreditRequestToken)
 
 END

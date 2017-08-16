@@ -15,7 +15,7 @@ BEGIN
 
 	EXEC SecureDataStore.dbo.CreateComplexTokenIfNotExists @CreditRequest, 4, @CreditRequestToken OUTPUT
 
-	EXEC ApplicationDataStore.dbo.InsertCreditCheckToken @Name, @CreditRequestToken
+	EXEC ApplicationDataStore.secure.InsertCreditCheckToken @Name, @CreditRequestToken
 
 END
 GO

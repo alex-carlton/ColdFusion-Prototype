@@ -1,13 +1,17 @@
 <cf_header>	
-	<cfif StructKeyExists(form, "loanSearchSubmit")>
-		<cfset result = application.dataService.searchLoan(form.name) >
-		<cfif result >
-			<cfset message="Loan details to come...">
+	<cfif StructKeyExists(form, "ssnSearchSubmit")>
+		<cfset result = application.dataService.searchSSN(form.ssn) >
+		<cfif result EQ "">
+			<cfset message="No loan details found.">
+		<cfelse>
+			<cfset message="Found: #result#">
 		</cfif>
-	<cfelseif structKeyExists(form, "creditSearchSubmit")>
-		<cfset result = application.dataService.searchCreditCheck(form.name) >
-		<cfif result >
-			<cfset message="Credit check details to come...">
+	<cfelseif structKeyExists(form, "dobSearchSubmit")>
+		<cfset result = application.dataService.searchDOB(form.dob) >
+		<cfif result EQ "">
+			<cfset message="No loan details found.">
+		<cfelse>
+			<cfset message="Found: #result#">
 		</cfif>
 	<cfelse>
 		<cfset message="">
@@ -16,21 +20,21 @@
 	<div class="row">
 		<h1>Search</h1>
 		<ul id="tabs-swipe-demo" class="tabs">
-		    <li class="tab col s3"><a class="active"href="#test-swipe-1">Loan</a></li>
-		    <li class="tab col s3"><a href="#test-swipe-2">Credit Check</a></li>
+		    <li class="tab col s3"><a class="active"href="#test-swipe-1">SSN</a></li>
+		    <li class="tab col s3"><a href="#test-swipe-2">DOB</a></li>
 		</ul>
 		<div id="test-swipe-1" class="col s12">
-			<form name="loanForm" method="post">
-				<label>Name:</label>
-				<input type="text" name="name" required>
-				<input class="btn" type="submit" name="loanSearchSubmit" value="Submit">
+			<form name="ssnForm" method="post">
+				<label>SSN:</label>
+				<input type="text" name="ssn" placeholder="12345678" required>
+				<input class="btn" type="submit" name="ssnSearchSubmit" value="Submit">
 			</form>
 		</div>
 		<div id="test-swipe-2" class="col s12">
 			<form name="xmlForm" method="post">
-				<label>Name:</label>
-				<input type="text" name="name" required>
-				<input class="btn" type="submit" name="creditSearchSubmit" value="Submit">
+				<label>DOB:</label>
+				<input type="date" name="dob" required>
+				<input class="btn" type="submit" name="dobSearchSubmit" value="Submit">
 			</form>
 		</div>
 	</div>
