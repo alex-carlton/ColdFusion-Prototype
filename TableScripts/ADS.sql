@@ -44,8 +44,8 @@ GO
 CREATE TABLE [dbo].[LoanApplication](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
-	[DOB Token] [bigint] NOT NULL,
-	[SSN Token] [bigint] NOT NULL,
+	[DOBToken] [bigint] NOT NULL,
+	[SSNToken] [bigint] NOT NULL,
  CONSTRAINT [PK_LoanApplication] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -62,7 +62,7 @@ GO
 CREATE TABLE [dbo].[CreditCheck_Unmigrated](
 	[Id] [bigint] IDENTITY(1,1)  NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
-	[Credit Request] [varchar](max) NOT NULL,
+	[CreditRequest] [varchar](max) NOT NULL,
  CONSTRAINT [PK_CreditCheck_Unmigrated] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -76,7 +76,7 @@ GO
 CREATE TABLE [dbo].[CreditCheck](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](50) NOT NULL,
-	[CreditRequest Token] [bigint] NOT NULL,
+	[CreditRequestToken] [bigint] NOT NULL,
  CONSTRAINT [PK_CreditCheck] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -94,7 +94,7 @@ GO
 -- *********************************************************************************
 -- SEED DATA
 -- *********************************************************************************
-INSERT INTO [dbo].[CreditCheck_Unmigrated]([Name], [Credit Request])
+INSERT INTO [dbo].[CreditCheck_Unmigrated]([Name], [CreditRequest])
 VALUES 
 	('Washington, George', '{"CreditRequest": {"firstname": "George","lastname": "Washington","ssn": "067152444","dob": "1932-02-22"}}')
 	,('Lincoln, Abraham', '{"CreditRequest": {"firstname": "Abraham","lastname": "Lincoln","ssn": "760523518","dob": "1909-02-12"}}')
