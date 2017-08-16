@@ -26,11 +26,9 @@ GO
 CREATE PROCEDURE usp_GetLoanApplicationBySSN
    @SSNToken BIGINT
 AS
-
 	SELECT LA.ApplicantName, LA.DOBToken
 	FROM LoanApplications AS LA
 	WHERE LA.SSNToken = @SSNToken
-
 GO
 
 -- EXEC usp_GetLoanApplicationBySSN 40

@@ -24,14 +24,20 @@ IF(OBJECT_ID('secure.usp_InsLoanApplicationTokens')) is NOT NULL
 GO
 
 CREATE PROCEDURE secure.usp_InsLoanApplicationTokens
-   @Name NVARCHAR(50),
-   @DateOfBirthToken BIGINT,
-   @SSNToken BIGINT
+    @Name NVARCHAR(50),
+    @DateOfBirthToken BIGINT,
+    @SSNToken BIGINT
 AS
-BEGIN
+BEGIN TRAN
+    INSERT INTO dbo.LoanApplications (ApplicantName,DOBToken,SSNToken)
+    VALUES (@Name, @DateOfBirthToken, @SSNToken )
 
-   INSERT INTO dbo.LoanApplications (ApplicantName,DOBToken,SSNToken)
-   VALUES (@Name, @DateOfBirthToken, @SSNToken )
+    IF (@@ERROR != 0)
+	BEGIN
+        ROLLBACK TRAN
+        RETURN 1
+	END
+    ELSE
+        RETURN 0
 
-END
-GO
+COMMIT TRAN

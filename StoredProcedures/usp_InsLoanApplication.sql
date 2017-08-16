@@ -28,19 +28,24 @@ CREATE PROCEDURE usp_InsLoanApplication
    @DateOfBirth DATE,
    @SSN NVARCHAR(9)
 AS
-BEGIN
+BEGIN TRAN
 	-- Create local variable
     DECLARE @SSNToken BIGINT
 	DECLARE @DateOfBirthToken BIGINT
+    DECLARE @ErrorValue INT
 
-	EXEC SecureDataStore.dbo.usp_InsTextTokenIfNotExists @SSN, 1, @SSNToken OUTPUT
-	EXEC SecureDataStore.dbo.usp_InsDateTokenIfNotExists @DateOfBirth, 2, @DateOfBirthToken OUTPUT
+	EXEC @ErrorValue = SecureDataStore.dbo.usp_InsTextTokenIfNotExists @SSN, 1, @SSNToken OUTPUT
+	IF (@ErrorValue != 0) ROLLBACK TRAN
 
-	EXEC ApplicationDataStore.secure.usp_InsLoanApplicationTokens @Name, @DateOfBirthToken, @SSNToken
+	EXEC @ErrorValue = SecureDataStore.dbo.usp_InsDateTokenIfNotExists @DateOfBirth, 2, @DateOfBirthToken OUTPUT
+	IF (@ErrorValue != 0) ROLLBACK TRAN
 
-END
+	EXEC @ErrorValue = ApplicationDataStore.secure.usp_InsLoanApplicationTokens @Name, @DateOfBirthToken, @SSNToken
+	IF (@ErrorValue != 0) ROLLBACK TRAN
+
+COMMIT TRAN
+
+RETURN @ErrorValue
 GO
 
 --EXEC usp_InsLoanApplication 'Alex', '1987-06-15', '555555555'
-
-

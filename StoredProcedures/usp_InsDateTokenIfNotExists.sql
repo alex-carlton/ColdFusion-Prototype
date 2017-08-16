@@ -38,11 +38,22 @@ AS
 
     --Conditional for Inserting
     IF(@count = 0)
-        BEGIN
+	BEGIN
+        BEGIN TRAN
             INSERT INTO dbo.SecureDates(SecureData, SecureTypeId)
             VALUES (@DateValue, @Type)
 			SET @DateToken = SCOPE_IDENTITY()
-        END
+
+            IF (@@ERROR != 0)
+			BEGIN
+                ROLLBACK TRAN
+                RETURN 1
+			END
+            ELSE
+                RETURN 0
+
+        COMMIT TRAN
+	END
     ELSE
         SELECT @DateToken = SD.SecureDateId
         FROM dbo.SecureDates AS SD

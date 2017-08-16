@@ -24,30 +24,24 @@ IF(OBJECT_ID('usp_InsComplexToken')) is NOT NULL
 GO
 
 CREATE PROCEDURE usp_InsComplexToken
-   @ComplexValue VARCHAR(MAX),
-   @Type INT,
-   @ComplexToken BIGINT OUTPUT
+    @ComplexValue VARCHAR(MAX),
+    @Type INT,
+    @ComplexToken BIGINT OUTPUT
 AS
-    -- Create local variable
-    DECLARE @count INT
+BEGIN TRAN
+    INSERT INTO dbo.SecureComplexes(SecureData, SecureTypeId)
+    VALUES (@ComplexValue, @Type)
+	SET @ComplexToken = SCOPE_IDENTITY()
 
-    --Check to see if there is any value in the table for the provided input.
-    --SELECT @count = COUNT(SC.SecureComplexId)
-    --FROM dbo.SecureComplexes AS SC
-    --WHERE SC.SecureData = @ComplexValue AND SC.SecureTypeId = @Type
+    IF (@@ERROR != 0)
+	BEGIN
+        ROLLBACK TRAN
+        RETURN 1
+	END
+    ELSE
+        RETURN 0
 
-    --Conditional for Inserting
-   -- IF(@count = 0)
-   --     BEGIN
-            INSERT INTO dbo.SecureComplexes(SecureData, SecureTypeId)
-            VALUES (@ComplexValue, @Type)
-			SET @ComplexToken = SCOPE_IDENTITY()
-   --     END
-   -- ELSE
-        --SELECT @ComplexToken = SD.SecureComplexId
-        --FROM dbo.SecureComplexes AS SD
-        --WHERE SD.SecureData = @ComplexValue;
-GO
+COMMIT TRAN
 
 --DECLARE @out BIGINT
 --EXEC dbo.usp_InsComplexToken '{"CreditRequest": {"firstname": "Alex","lastname": "Carlton","ssn": "555555555","dob": "1987-06-15"}}', 4, @out OUTPUT

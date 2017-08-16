@@ -38,11 +38,22 @@ AS
 
     --Conditional for Inserting
     IF(@count = 0)
-        BEGIN
-            INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
-            VALUES (@TextValue, @Type)
-			SET @TextToken = SCOPE_IDENTITY() 
-        END
+		BEGIN
+			BEGIN TRAN
+				INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
+				VALUES (@TextValue, @Type)
+				SET @TextToken = SCOPE_IDENTITY()
+				
+				IF (@@ERROR != 0)
+					BEGIN
+						ROLLBACK TRAN
+						RETURN 1
+					END
+				ELSE
+					RETURN 0
+
+			COMMIT TRAN
+		END
     ELSE
         SELECT @TextToken = ST.SecureTextId
         FROM dbo.SecureTexts AS ST

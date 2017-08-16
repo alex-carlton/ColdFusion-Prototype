@@ -24,18 +24,23 @@ IF(OBJECT_ID('usp_InsCreditCheck')) is NOT NULL
 GO
 
 CREATE PROCEDURE usp_InsCreditCheck
-   @Name NVARCHAR(50),
-   @CreditRequest NVARCHAR(MAX)
+    @Name NVARCHAR(50),
+    @CreditRequest NVARCHAR(MAX)
 AS
-BEGIN
+BEGIN TRAN
 	-- Create local variable
     DECLARE @CreditRequestToken BIGINT
+	DECLARE @ErrorValue INT
 
-	EXEC SecureDataStore.dbo.usp_InsComplexToken @CreditRequest, 4, @CreditRequestToken OUTPUT
+	EXEC @ErrorValue = SecureDataStore.dbo.usp_InsComplexToken @CreditRequest, 4, @CreditRequestToken OUTPUT
+	IF (@ErrorValue != 0) ROLLBACK TRAN
 
-	EXEC ApplicationDataStore.secure.usp_InsCreditCheckToken @Name, @CreditRequestToken
+	EXEC @ErrorValue = ApplicationDataStore.secure.usp_InsCreditCheckToken @Name, @CreditRequestToken
+	IF (@ErrorValue != 0) ROLLBACK TRAN
 
-END
+COMMIT TRAN
+
+RETURN @ErrorValue
 GO
 
-EXEC usp_InsCreditCheck 'Alex', '{"CreditRequest": {"firstname": "Alex","lastname": "Carlton","ssn": "555555555","dob": "1987-06-15"}}'
+--EXEC usp_InsCreditCheck 'Alex', '{"CreditRequest": {"firstname": "Alex","lastname": "Carlton","ssn": "555555555","dob": "1987-06-15"}}'
