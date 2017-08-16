@@ -1,11 +1,29 @@
+--=======================================================================================
+-- Database: SecureDataStore
+-- Stored Procedure: dbo.usp_InsTextTokenIfNotExists
+--
+-- Description: Inserts PII text if it does not exist, and returns a token referring to the given text.
+--
+-- Created by: Alex Carlton
+-- Create date: 08/15/2017
+--
+-- Dependencies:
+-- Added by: Date Added: Business Unit/Project #/Application/Job:
+-- <developername> mm/dd/yyyy
+--
+-- Modification History:
+-- Mod by:			Date Mod:	Mod id:		Mod description:
+-- James Aden		08/16/2017	N/A			Updated to meet Clayton database standards
+--=======================================================================================
+
 USE SecureDataStore;
 GO
 
-IF(OBJECT_ID('CreateTextTokenIfNotExists')) is NOT NULL
-    DROP PROCEDURE CreateTextTokenIfNotExists
+IF(OBJECT_ID('usp_InsTextTokenIfNotExists')) is NOT NULL
+    DROP PROCEDURE usp_InsTextTokenIfNotExists
 GO
 
-CREATE PROCEDURE CreateTextTokenIfNotExists
+CREATE PROCEDURE usp_InsTextTokenIfNotExists
    @TextValue VARCHAR(100),
    @Type INT,
    @TextToken BIGINT OUTPUT
@@ -14,23 +32,23 @@ AS
     DECLARE @count INT
 
     --Check to see if there is any value in the table for the provided input.
-    SELECT @count = COUNT(ST.[Key])
-    FROM dbo.[SecureText] AS ST
-    WHERE ST.[Data] = @TextValue AND ST.[Type] = @Type
+    SELECT @count = COUNT(ST.SecureTextId)
+    FROM dbo.SecureTexts AS ST
+    WHERE ST.SecureData = @TextValue AND ST.SecureTypeId = @Type
 
     --Conditional for Inserting
     IF(@count = 0)
         BEGIN
-            INSERT INTO dbo.SecureText([Data], [Type])
+            INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
             VALUES (@TextValue, @Type)
 			SET @TextToken = SCOPE_IDENTITY() 
         END
     ELSE
-        SELECT @TextToken = ST.[Key]
-        FROM dbo.SecureText AS ST
-        WHERE ST.[Data] = @TextValue;
+        SELECT @TextToken = ST.SecureTextId
+        FROM dbo.SecureTexts AS ST
+        WHERE ST.SecureData = @TextValue AND ST.SecureTypeId = @Type
 GO
 
 --DECLARE @out BIGINT
---EXEC dbo.CreateTextTokenIfNotExists '555555555', 1, @out OUTPUT
+--EXEC dbo.usp_InsTextTokenIfNotExists '555554555', 1, @out OUTPUT
 --SELECT @out
