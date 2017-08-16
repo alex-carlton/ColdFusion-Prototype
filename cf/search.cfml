@@ -1,17 +1,17 @@
 <cf_header>	
 	<cfif StructKeyExists(form, "ssnSearchSubmit")>
 		<cfset result = application.dataService.searchSSN(form.ssn) >
-		<cfif result EQ "">
+		<cfif result.name EQ "">
 			<cfset message="No loan details found.">
 		<cfelse>
-			<cfset message="Found: #result#">
+			<cfset message="Name: #result.name# and DOB: #result.dob#">
 		</cfif>
 	<cfelseif structKeyExists(form, "dobSearchSubmit")>
 		<cfset result = application.dataService.searchDOB(form.dob) >
-		<cfif result EQ "">
+		<cfif result.name EQ "">
 			<cfset message="No loan details found.">
 		<cfelse>
-			<cfset message="Found: #result#">
+			<cfset message="Name: #result.name# and SSN: #result.ssn#">
 		</cfif>
 	<cfelse>
 		<cfset message="">
@@ -26,7 +26,7 @@
 		<div id="test-swipe-1" class="col s12">
 			<form name="ssnForm" method="post">
 				<label>SSN:</label>
-				<input type="text" name="ssn" placeholder="12345678" required>
+				<input type="text" name="ssn" placeholder="123456789" required>
 				<input class="btn" type="submit" name="ssnSearchSubmit" value="Submit">
 			</form>
 		</div>
