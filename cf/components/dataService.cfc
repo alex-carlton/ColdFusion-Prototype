@@ -4,7 +4,7 @@
 		<cfargument name="ssn"	required="true" type="string">
 		<cfargument name="dob" required="true" type="date">
 
-		<cfstoredproc procedure="InsertLoanApplication" datasource="SDS" returncode="true" result="loanResult">
+		<cfstoredproc procedure="usp_InsLoanApplication" datasource="SDS" returncode="true" result="loanResult">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
 			<cfprocparam cfsqltype="CF_SQL_DATE" value="#dob#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="9" value="#ssn#">
@@ -23,7 +23,7 @@
 		<cfargument name="name" required="true" type="string">
 		<cfargument name="xml"	required="true" type="xml">
 
-		<cfstoredproc procedure="insertCreditCheck" datasource="SDS" returncode="true" result="creditCheckResult">
+		<cfstoredproc procedure="usp_InsCreditCheck" datasource="SDS" returncode="true" result="creditCheckResult">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" maxlength="50" value="#name#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#xml#">
 
@@ -42,14 +42,14 @@
 		<cfargument name="ssn" required="true" type="string">
 		
 		<!--- Get SSN token --->
-		<cfstoredproc procedure="CreateTextTokenIfNotExists" datasource="SDS">
+		<cfstoredproc procedure="usp_InsTextTokenIfNotExists" datasource="SDS">
 			<cfprocparam type="in" cfsqltype="CF_SQL_VARCHAR" maxlength="9" value="#ssn#">
 			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="1">
 			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="ssnToken">	
 		</cfstoredproc>
 
 		<!--- Get Name and DOB token --->
-		<cfstoredproc procedure="secure.SearchLoanApplicationSSN" datasource="ADS">
+		<cfstoredproc procedure="usp_GetLoanApplicationBySSN" datasource="ADS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnToken#">
 
 			<cfprocresult name="ssnLoanResult">
@@ -62,14 +62,14 @@
 		</cfif>
 
 		<!--- Get the DOB using token --->
-		<cfstoredproc procedure="GetDateValue" datasource="SDS">
+		<cfstoredproc procedure="usp_GetDateValue" datasource="SDS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnLoanResult.DOBToken#">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="2">
 
 			<cfprocresult name="dob_ssnLoanResult">
 		</cfstoredproc>
 
-		<cfset ssnLoan={name=ssnLoanResult.name, dob=dob_ssnLoanResult.Data}>
+		<cfset ssnLoan={name=ssnLoanResult.ApplicantName, dob=dob_ssnLoanResult.SecureData}>
 
 		<cfreturn ssnLoan>
 	</cffunction>
@@ -78,14 +78,14 @@
 		<cfargument name="dob" required="true" type="date">
 
 		<!--- Get DOB token --->
-		<cfstoredproc procedure="CreateDateTokenIfNotExists" datasource="SDS">
+		<cfstoredproc procedure="usp_InsDateTokenIfNotExists" datasource="SDS">
 			<cfprocparam type="in" cfsqltype="CF_SQL_DATE" value="#dob#">
 			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="2">
 			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="dobToken">	
 		</cfstoredproc>
 
 		<!--- Get name and SSN token --->
-		<cfstoredproc procedure="secure.SearchLoanApplicationDOB" datasource="ADS">
+		<cfstoredproc procedure="usp_GetLoanApplicationByDOB" datasource="ADS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#dobToken#">
 
 			<cfprocresult name="dobLoanResult">
@@ -98,14 +98,14 @@
 		</cfif>
 
 		<!--- Get the SSN using token --->
-		<cfstoredproc procedure="GetTextValue" datasource="SDS">
+		<cfstoredproc procedure="usp_GetTextValue" datasource="SDS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#dobLoanResult.SSNToken#">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="1">
 
 			<cfprocresult name="ssn_dobLoanResult">
 		</cfstoredproc>
 
-		<cfset dobLoan={name=dobLoanResult.name, ssn=ssn_dobLoanResult.Data}>
+		<cfset dobLoan={name=dobLoanResult.ApplicantName, ssn=ssn_dobLoanResult.SecureData}>
 
 		<cfreturn dobLoan>
 	</cffunction>
