@@ -19,12 +19,21 @@ IF EXISTS(SELECT * FROM sys.database_principals WHERE name = 'SecureSA')
 GO
 
 
-USE SecureDataStore
+USE [SecureDataStore]
 
-IF EXISTS(SELECT * FROM sys.database_principals WHERE name = 'SecureSA')
+
+
+IF EXISTS(SELECT * FROM master..syslogins WHERE name = 'SecureSA')
 	BEGIN
+
+
 		DROP LOGIN SecureSA
+
+	
 	END
+GO
+
+
 
 CREATE LOGIN [SecureSA] 
 	WITH PASSWORD = 'DprSecure123$'
@@ -34,7 +43,8 @@ CREATE LOGIN [SecureSA]
 	, CHECK_POLICY=ON;
 GO
 
-IF EXISTS(SELECT * FROM sys.database_principals WHERE name = 'AppSA')
+
+IF EXISTS(SELECT * FROM master..syslogins WHERE name = 'AppSA')
 	BEGIN
 		DROP LOGIN AppSA
 	END
