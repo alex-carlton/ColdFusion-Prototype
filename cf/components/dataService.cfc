@@ -69,7 +69,7 @@
 			<cfprocresult name="dob_ssnLoanResult">
 		</cfstoredproc>
 
-		<cfset ssnLoan={name=ssnLoanResult.name, dob=dob_ssnLoanResult.Data}>
+		<cfset ssnLoan={name=ssnLoanResult.ApplicantName, dob=dob_ssnLoanResult.SecureData}>
 
 		<cfreturn ssnLoan>
 	</cffunction>
@@ -105,7 +105,7 @@
 			<cfprocresult name="ssn_dobLoanResult">
 		</cfstoredproc>
 
-		<cfset dobLoan={name=dobLoanResult.name, ssn=ssn_dobLoanResult.Data}>
+		<cfset dobLoan={name=dobLoanResult.ApplicantName, ssn=ssn_dobLoanResult.SecureData}>
 
 		<cfreturn dobLoan>
 	</cffunction>
