@@ -28,6 +28,7 @@ CREATE PROCEDURE usp_InsTextTokenIfNotExists
    @Type INT,
    @TextToken BIGINT OUTPUT
 AS
+BEGIN
     -- Create local variable
     DECLARE @count INT
 
@@ -43,23 +44,23 @@ AS
 				INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
 				VALUES (@TextValue, @Type)
 				SET @TextToken = SCOPE_IDENTITY()
-				
+
 				IF (@@ERROR != 0)
 					BEGIN
 						ROLLBACK TRAN
 						RETURN 1
 					END
 				ELSE
+					COMMIT TRAN
 					RETURN 0
-
-			COMMIT TRAN
 		END
     ELSE
         SELECT @TextToken = ST.SecureTextId
         FROM dbo.SecureTexts AS ST
         WHERE ST.SecureData = @TextValue AND ST.SecureTypeId = @Type
+END
 GO
 
 --DECLARE @out BIGINT
---EXEC dbo.usp_InsTextTokenIfNotExists '555554555', 1, @out OUTPUT
+--EXEC dbo.usp_InsTextTokenIfNotExists '553554555', 1, @out OUTPUT
 --SELECT @out

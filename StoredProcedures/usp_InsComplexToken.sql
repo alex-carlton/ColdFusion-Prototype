@@ -28,7 +28,8 @@ CREATE PROCEDURE usp_InsComplexToken
     @Type INT,
     @ComplexToken BIGINT OUTPUT
 AS
-BEGIN TRAN
+BEGIN
+    BEGIN TRAN
     INSERT INTO dbo.SecureComplexes(SecureData, SecureTypeId)
     VALUES (@ComplexValue, @Type)
 	SET @ComplexToken = SCOPE_IDENTITY()
@@ -39,9 +40,10 @@ BEGIN TRAN
         RETURN 1
 	END
     ELSE
+        COMMIT TRAN
         RETURN 0
-
-COMMIT TRAN
+END
+GO
 
 --DECLARE @out BIGINT
 --EXEC dbo.usp_InsComplexToken '{"CreditRequest": {"firstname": "Alex","lastname": "Carlton","ssn": "555555555","dob": "1987-06-15"}}', 4, @out OUTPUT

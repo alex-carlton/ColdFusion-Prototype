@@ -28,6 +28,7 @@ CREATE PROCEDURE usp_InsDateTokenIfNotExists
    @Type INT,
    @DateToken BIGINT OUTPUT
 AS
+BEGIN
     -- Create local variable
     DECLARE @count INT
 
@@ -38,28 +39,28 @@ AS
 
     --Conditional for Inserting
     IF(@count = 0)
-	BEGIN
-        BEGIN TRAN
-            INSERT INTO dbo.SecureDates(SecureData, SecureTypeId)
-            VALUES (@DateValue, @Type)
-			SET @DateToken = SCOPE_IDENTITY()
+		BEGIN
+			BEGIN TRAN
+				INSERT INTO dbo.SecureDates(SecureData, SecureTypeId)
+				VALUES (@DateValue, @Type)
+				SET @DateToken = SCOPE_IDENTITY()
 
-            IF (@@ERROR != 0)
-			BEGIN
-                ROLLBACK TRAN
-                RETURN 1
-			END
-            ELSE
-                RETURN 0
-
-        COMMIT TRAN
-	END
+				IF (@@ERROR != 0)
+					BEGIN
+						ROLLBACK TRAN
+						RETURN 1
+					END
+				ELSE
+					COMMIT TRAN
+					RETURN 0
+		END
     ELSE
         SELECT @DateToken = SD.SecureDateId
         FROM dbo.SecureDates AS SD
         WHERE SD.SecureData = @DateValue AND SD.SecureTypeId = @Type;
+END
 GO
 
 --DECLARE @out BIGINT
---EXEC dbo.usp_InsDateTokenIfNotExists '1987-06-15', 2, @out OUTPUT
+--EXEC dbo.usp_InsDateTokenIfNotExists '1985-07-07', 2, @out OUTPUT
 --SELECT @out

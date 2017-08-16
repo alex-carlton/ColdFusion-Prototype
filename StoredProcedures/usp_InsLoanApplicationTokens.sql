@@ -28,16 +28,18 @@ CREATE PROCEDURE secure.usp_InsLoanApplicationTokens
     @DateOfBirthToken BIGINT,
     @SSNToken BIGINT
 AS
-BEGIN TRAN
-    INSERT INTO dbo.LoanApplications (ApplicantName,DOBToken,SSNToken)
-    VALUES (@Name, @DateOfBirthToken, @SSNToken )
+BEGIN
+	BEGIN TRAN
+		INSERT INTO dbo.LoanApplications (ApplicantName,DOBToken,SSNToken)
+		VALUES (@Name, @DateOfBirthToken, @SSNToken )
 
-    IF (@@ERROR != 0)
-	BEGIN
-        ROLLBACK TRAN
-        RETURN 1
-	END
-    ELSE
-        RETURN 0
-
-COMMIT TRAN
+		IF (@@ERROR != 0)
+		BEGIN
+			ROLLBACK TRAN
+			RETURN 1
+		END
+		ELSE
+			COMMIT TRAN
+			RETURN 0
+END
+GO
