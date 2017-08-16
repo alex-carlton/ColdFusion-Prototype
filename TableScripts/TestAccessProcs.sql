@@ -14,8 +14,7 @@ CREATE PROCEDURE [secure].[TestSecureCallFromSDS]
  
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	Select * FROM LoanApplication_Unmigrated
+	Select * FROM LoanApplications_Unmigrated
 END
 GO
 
@@ -29,7 +28,7 @@ CREATE PROCEDURE TestNoSchemaCallFromSDS
 
 AS
 BEGIN
-	Select * FROM LoanApplication_Unmigrated
+	Select * FROM LoanApplications_Unmigrated
 END
 GO
 

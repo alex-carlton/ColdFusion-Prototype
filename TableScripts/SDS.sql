@@ -1,21 +1,44 @@
+--=======================================================================================
+-- Database: SecureDataStore
+--
+-- Description: Secure data store is a seperate secure data base for storing sperated out PII
+--				data. Each PII data that is stored will have a unique key that it corresponds with.
+--				These unique keys will also be stored in the application databases. When the application 
+--				needs to READ PII, it will retreive the unqiue key from the application's other databases
+--				then READ the PII with the SecureKey.
+--
+--				This prototype script is to Drop and Recreate the Prototype SDS with seed data.			
+--
+-- Created by: Kullen Williams
+-- Create date: 08/16/2017
+--
+-- Dependencies:
+-- Added by: Date Added: Business Unit/Project #/Application/Job:
+--
+-- Modification History:
+-- Mod by: Date Mod: Mod id: Mod description:
+
+--=======================================================================================
+
+
 USE [master]
 GO
 
 /****** Object:  Database [SecureDataStore]    Script Date: 8/14/2017 1:08:56 PM ******/
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'SecureDataStore')
 BEGIN
-	ALTER DATABASE [SecureDataStore]
+	ALTER DATABASE SecureDataStore
 	SET SINGLE_USER
 	WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [SecureDataStore]
+	DROP DATABASE SecureDataStore
 END
 GO
 
 /****** Object:  Database [SecureDataStore]    Script Date: 8/14/2017 1:08:56 PM ******/
-CREATE DATABASE [SecureDataStore]
+CREATE DATABASE SecureDataStore
 GO
 
- USE [SecureDataStore]
+ USE SecureDataStore
  GO
 
 
@@ -23,20 +46,20 @@ GO
 -- *********************************************************************************
 -- Create Pii Text Table
 -- *********************************************************************************
-CREATE TABLE [dbo].[SecureText](
-	[Key] [bigint] IDENTITY(1,1) NOT NULL,
-	[Data] [varchar](100) NOT NULL,
-	[TimeStamp] [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-	[Type] [int] NOT NULL,
-	PRIMARY KEY([Key])
+CREATE TABLE dbo.SecureTexts(
+	SecureTextId [bigint] IDENTITY(1,1) NOT NULL,
+	SecureData [varchar](100) NOT NULL,
+	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+	SecureTypeId [int] NOT NULL,
+	PRIMARY KEY(SecureTextId)
 	)
 GO
 
 -- Create Pii Text indexes
-CREATE UNIQUE NONCLUSTERED INDEX [dataCluster] ON [dbo].[SecureText]
+CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureTexts_SecureData_SecureTypeId ON dbo.SecureTexts
 (
-	[Data] ASC,
-	[Type] ASC
+	SecureData ASC,
+	SecureTypeId ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
@@ -44,20 +67,19 @@ GO
 -- *********************************************************************************
 -- Create Pii Date Table
 -- *********************************************************************************
-CREATE TABLE [dbo].[SecureDate](
-	[Key] [bigint] IDENTITY(1,1) NOT NULL,
-	[Data] [date] NOT NULL,
-	[TimeStamp] [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-	[Type] [int] NULL,
-	PRIMARY KEY([Key])
+CREATE TABLE dbo.SecureDates(
+	SecureDateId [bigint] IDENTITY(1,1) NOT NULL,
+	SecureData [date] NOT NULL,
+	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+	SecureTypeId [int] NULL,
+	PRIMARY KEY(SecureDateId)
 	)
 GO
-
 -- Create Pii Date indexes
-CREATE UNIQUE NONCLUSTERED INDEX [dataCluster] ON [dbo].[SecureDate]
+CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureDates_SecureData_SecureTypeId ON dbo.SecureDates
 (
-	[Data] ASC,
-	[Type] ASC
+	SecureData ASC,
+	SecureTypeId ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
@@ -66,29 +88,27 @@ GO
 -- *********************************************************************************
 -- Create Pii DComplex ate Table
 -- *********************************************************************************
-CREATE TABLE [dbo].[SecureComplex](
-	[Key] [bigint] IDENTITY(1,1) NOT NULL,
-	[Data] [varchar](max) NOT NULL,
-	[TimeStamp] [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-	[Type] [int] NULL,
-	PRIMARY KEY([Key])
+CREATE TABLE dbo.SecureComplexes(
+	SecureComplexId [bigint] IDENTITY(1,1) NOT NULL,
+	SecureData [varchar](max) NOT NULL,
+	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+	SecureTypeId [int] NULL,
+	PRIMARY KEY(SecureComplexId)
 	)
 GO
 
 
 
-CREATE TABLE [dbo].[PiiType](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](100) NOT NULL,
-	CONSTRAINT [PK_C\PiiType] PRIMARY KEY CLUSTERED 
-	(
-		[Id] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+CREATE TABLE dbo.SecureTypes(
+	SecureTypeId [int] IDENTITY(1,1) NOT NULL,
+	SecureTypeName [varchar](100) NOT NULL,
+	PRIMARY KEY (SecureTypeId)
+	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 	) ON [PRIMARY]
 	GO
 
 
-INSERT INTO PiiType([Name])
+INSERT INTO SecureTypes(SecureTypeName)
 Values
 	('SSN')
 	,('DOB')
@@ -98,7 +118,7 @@ Values
 
 
 
-INSERT INTO SecureText([Data], [Type])
+INSERT INTO SecureTexts(SecureData, SecureTypeId)
 VALUES
 	('067152444', 1)
 	,('760523518', 1)
@@ -112,7 +132,7 @@ VALUES
 
 
 
-INSERT INTO SecureDate([Data], [Type])
+INSERT INTO SecureDates(SecureData, SecureTypeId)
 VALUES
 	('1999-06-12', 2)
 	,('1989-09-25', 2)
@@ -125,7 +145,7 @@ VALUES
 	,('1969-05-20', 2)
 
 
-INSERT INTO SecureComplex([Data], [Type])
+INSERT INTO SecureComplexes(SecureData, SecureTypeId)
 VALUES
 	 ('{"CreditRequest": {"firstname": "George","lastname": "Washington","ssn": "067152444","dob": "1932-02-22"}}', 4)
 	,('{"CreditRequest": {"firstname": "Abraham","lastname": "Lincoln","ssn": "067152444","dob": "1909-02-12"}}', 4)

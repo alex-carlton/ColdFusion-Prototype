@@ -1,21 +1,34 @@
+--=======================================================================================
+-- Database: ApplicationDataStore
+--
+--
+-- Description: The Application Data store is for prototype purposes only
+--				This database represents the application databases that the loan origination
+--				system uses. 
+--
+-- Created by: Kulllen Williams
+-- Create date: 08/16/2017
+--=======================================================================================
+
+
 USE [master]
 GO
 
 /****** Object:  Database [ApplicationDataStore]    Script Date: 8/14/2017 2:35:57 PM ******/
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ApplicationDataStore')
 BEGIN
-	ALTER DATABASE [ApplicationDataStore]
+	ALTER DATABASE ApplicationDataStore
 	SET SINGLE_USER
 	WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [ApplicationDataStore]
+	DROP DATABASE ApplicationDataStore
 END
 GO
 
 /****** Object:  Database [ApplicationDataStore]    Script Date: 8/14/2017 2:35:57 PM ******/
-CREATE DATABASE [ApplicationDataStore]
+CREATE DATABASE ApplicationDataStore
 GO
 
-USE [ApplicationDataStore]
+USE ApplicationDataStore
 GO
 
 
@@ -24,15 +37,13 @@ GO
 -- Create unmigrated loan application table for proto etl
 -- *********************************************************************************
 
-CREATE TABLE [dbo].[LoanApplication_Unmigrated](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[DOB] [date] NOT NULL,
-	[SSN] [nvarchar](15) NOT NULL,
- CONSTRAINT [PK_LoanApplication_Unmigrated] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+CREATE TABLE dbo.LoanApplications_Unmigrated(
+	LoanApplicationId [bigint] IDENTITY(1,1) NOT NULL,
+	ApplicantName [nvarchar](50) NOT NULL,
+	DOB [date] NOT NULL,
+	SSN [nvarchar](15) NOT NULL,
+	PRIMARY KEY(LoanApplicationId)
+	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -41,15 +52,13 @@ GO
 -- *********************************************************************************
 -- Create loan application table for proto
 -- *********************************************************************************
-CREATE TABLE [dbo].[LoanApplication](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[DOBToken] [bigint] NOT NULL,
-	[SSNToken] [bigint] NOT NULL,
- CONSTRAINT [PK_LoanApplication] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+CREATE TABLE dbo.LoanApplications(
+	LoanApplicationId [bigint] IDENTITY(1,1) NOT NULL,
+	ApplicantName [nvarchar](50) NOT NULL,
+	DOBToken [bigint] NOT NULL,
+	SSNToken [bigint] NOT NULL,
+	PRIMARY KEY (LoanApplicationId)
+	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -59,28 +68,24 @@ GO
 -- Create unmigrated credit check table for proto etl
 -- *********************************************************************************
 
-CREATE TABLE [dbo].[CreditCheck_Unmigrated](
-	[Id] [bigint] IDENTITY(1,1)  NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[CreditRequest] [varchar](max) NOT NULL,
- CONSTRAINT [PK_CreditCheck_Unmigrated] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+CREATE TABLE dbo.CreditChecks_Unmigrated(
+	CreditCheckId [bigint] IDENTITY(1,1)  NOT NULL,
+	ApplicantName [nvarchar](50) NOT NULL,
+	CreditRequest [varchar](max) NOT NULL,
+	PRIMARY KEY (CreditCheckId)
+	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
 -- *********************************************************************************
 -- Create credit check table for proto
 -- *********************************************************************************
-CREATE TABLE [dbo].[CreditCheck](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[CreditRequestToken] [bigint] NOT NULL,
- CONSTRAINT [PK_CreditCheck] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+CREATE TABLE dbo.CreditChecks(
+	CreditCheckId [bigint] IDENTITY(1,1) NOT NULL,
+	ApplicantName [nvarchar](50) NOT NULL,
+	CreditRequestToken [bigint] NOT NULL,
+	PRIMARY KEY (CreditCheckId)
+	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
@@ -94,7 +99,7 @@ GO
 -- *********************************************************************************
 -- SEED DATA
 -- *********************************************************************************
-INSERT INTO [dbo].[CreditCheck_Unmigrated]([Name], [CreditRequest])
+INSERT INTO [dbo].[CreditChecks_Unmigrated](ApplicantName, CreditRequest)
 VALUES 
 	('Washington, George', '{"CreditRequest": {"firstname": "George","lastname": "Washington","ssn": "067152444","dob": "1932-02-22"}}')
 	,('Lincoln, Abraham', '{"CreditRequest": {"firstname": "Abraham","lastname": "Lincoln","ssn": "760523518","dob": "1909-02-12"}}')
@@ -104,7 +109,7 @@ VALUES
 	,('Presley, Elvis', '{"CreditRequest": {"firstname": "Elvis","lastname": "Presley","ssn": "483884486","dob": "1935-01-08"}}')
 
 
-INSERT INTO [dbo].[LoanApplication_Unmigrated]([Name], DOB, SSN)
+INSERT INTO [dbo].[LoanApplications_Unmigrated](ApplicantName, DOB, SSN)
 VALUES 
 	('Washington, George', '1932-02-22', '067152444')
 	,('Lincoln, Abraham', '1909-02-12', '760523518')
