@@ -2,13 +2,13 @@ USE [ApplicationDataStore]
 GO
 
 
-ALTER TABLE CreditChecks_Unmigrated ADD CreditRequestToken BIGINT NULL
+ALTER TABLE CreditChecks ADD CreditRequestToken BIGINT NULL
 GO
 
 DECLARE @creditRequest varchar(max), @creditRequestToken BIGINT;
 
 DECLARE CreditChecksMigrationCursor CURSOR
-FOR SELECT CreditRequest, CreditRequestToken FROM CreditChecks_Unmigrated
+FOR SELECT CreditRequest, CreditRequestToken FROM CreditChecks
 FOR UPDATE OF CreditRequestToken
 
 OPEN CreditChecksMigrationCursor
@@ -20,7 +20,7 @@ BEGIN
 	INSERT INTO [SecureDataStore].dbo.SecureComplexes (SecureData, SecureTypeId)
 	SELECT @creditRequest, 5
 	
-	UPDATE CreditChecks_Unmigrated
+	UPDATE CreditChecks
 	SET CreditRequestToken = SCOPE_IDENTITY()
 	WHERE CURRENT OF CreditChecksMigrationCursor
 	
@@ -28,6 +28,6 @@ BEGIN
 	INTO @creditRequest, @creditRequestToken
 END
 
-ALTER TABLE CreditChecks_Unmigrated ALTER COLUMN CreditRequestToken BIGINT NOT NULL
+ALTER TABLE CreditChecks ALTER COLUMN CreditRequestToken BIGINT NOT NULL
 
-ALTER TABLE CreditChecks_Unmigrated DROP COLUMN CreditRequest
+ALTER TABLE CreditChecks DROP COLUMN CreditRequest

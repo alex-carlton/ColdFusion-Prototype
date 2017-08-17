@@ -32,50 +32,19 @@ USE ApplicationDataStore
 GO
 
 
-
--- *********************************************************************************
--- Create unmigrated loan application table for proto etl
--- *********************************************************************************
-
-CREATE TABLE dbo.LoanApplications_Unmigrated(
-	LoanApplicationId [bigint] IDENTITY(1,1) NOT NULL,
-	ApplicantName [nvarchar](50) NOT NULL,
-	DOB [date] NOT NULL,
-	SSN [nvarchar](15) NOT NULL,
-	PRIMARY KEY(LoanApplicationId)
-	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-
-
 -- *********************************************************************************
 -- Create loan application table for proto
 -- *********************************************************************************
 CREATE TABLE dbo.LoanApplications(
 	LoanApplicationId [bigint] IDENTITY(1,1) NOT NULL,
 	ApplicantName [nvarchar](50) NOT NULL,
-	DOBToken [bigint] NOT NULL,
-	SSNToken [bigint] NOT NULL,
+	DOB [date] NOT NULL,
+	SSN [nvarchar](15) NOT NULL,
 	PRIMARY KEY (LoanApplicationId)
 	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-
-
--- *********************************************************************************
--- Create unmigrated credit check table for proto etl
--- *********************************************************************************
-
-CREATE TABLE dbo.CreditChecks_Unmigrated(
-	CreditCheckId [bigint] IDENTITY(1,1)  NOT NULL,
-	ApplicantName [nvarchar](50) NOT NULL,
-	CreditRequest [varchar](max) NOT NULL,
-	PRIMARY KEY (CreditCheckId)
-	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
 
 -- *********************************************************************************
 -- Create credit check table for proto
@@ -83,23 +52,17 @@ GO
 CREATE TABLE dbo.CreditChecks(
 	CreditCheckId [bigint] IDENTITY(1,1) NOT NULL,
 	ApplicantName [nvarchar](50) NOT NULL,
-	CreditRequestToken [bigint] NOT NULL,
+	CreditRequest [varchar](max) NOT NULL,
 	PRIMARY KEY (CreditCheckId)
 	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
 
-
-
-
-
-
-
 -- *********************************************************************************
 -- SEED DATA
 -- *********************************************************************************
-INSERT INTO [dbo].[CreditChecks_Unmigrated](ApplicantName, CreditRequest)
+INSERT INTO [dbo].[CreditChecks](ApplicantName, CreditRequest)
 VALUES 
 	('Washington, George', '{"CreditRequest": {"firstname": "George","lastname": "Washington","ssn": "067152444","dob": "1932-02-22"}}')
 	,('Lincoln, Abraham', '{"CreditRequest": {"firstname": "Abraham","lastname": "Lincoln","ssn": "760523518","dob": "1909-02-12"}}')
@@ -109,7 +72,7 @@ VALUES
 	,('Presley, Elvis', '{"CreditRequest": {"firstname": "Elvis","lastname": "Presley","ssn": "483884486","dob": "1935-01-08"}}')
 
 
-INSERT INTO [dbo].[LoanApplications_Unmigrated](ApplicantName, DOB, SSN)
+INSERT INTO [dbo].[LoanApplications](ApplicantName, DOB, SSN)
 VALUES 
 	('Washington, George', '1932-02-22', '067152444')
 	,('Lincoln, Abraham', '1909-02-12', '760523518')
