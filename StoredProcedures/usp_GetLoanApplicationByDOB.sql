@@ -31,4 +31,4 @@ AS
 	WHERE LA.DOBToken = @DOBToken
 GO
 
--- EXEC usp_GetLoanApplicationDOB 46
+-- EXEC usp_GetLoanApplicationByDOB 33
