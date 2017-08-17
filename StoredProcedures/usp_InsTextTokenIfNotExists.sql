@@ -29,38 +29,27 @@ CREATE PROCEDURE usp_InsTextTokenIfNotExists
    @TextToken BIGINT OUTPUT
 AS
 BEGIN
-    -- Create local variable
-    DECLARE @count INT
-
-    --Check to see if there is any value in the table for the provided input.
-    SELECT @count = COUNT(ST.SecureTextId)
+    SELECT @TextToken = ST.SecureTextId
     FROM dbo.SecureTexts AS ST
     WHERE ST.SecureData = @TextValue AND ST.SecureTypeId = @Type
 
     --Conditional for Inserting
-    IF(@count = 0)
+    IF(@TextToken IS NULL)
 		BEGIN
-			BEGIN TRAN
-				INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
-				VALUES (@TextValue, @Type)
-				SET @TextToken = SCOPE_IDENTITY()
+			INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
+			VALUES (@TextValue, @Type)
+			SET @TextToken = SCOPE_IDENTITY()
 
-				IF (@@ERROR != 0)
-					BEGIN
-						ROLLBACK TRAN
-						RETURN 1
-					END
-				ELSE
-					COMMIT TRAN
-					RETURN 0
+			IF (@@ERROR != 0) RETURN 1
 		END
     ELSE
-        SELECT @TextToken = ST.SecureTextId
-        FROM dbo.SecureTexts AS ST
-        WHERE ST.SecureData = @TextValue AND ST.SecureTypeId = @Type
+        
+	IF (@@ERROR != 0) RETURN 1
+
+	RETURN 0
 END
 GO
 
 --DECLARE @out BIGINT
---EXEC dbo.usp_InsTextTokenIfNotExists '553554555', 1, @out OUTPUT
+--EXEC dbo.usp_InsTextTokenIfNotExists '553594555', 1, @out OUTPUT
 --SELECT @out

@@ -29,19 +29,13 @@ CREATE PROCEDURE usp_InsComplexToken
     @ComplexToken BIGINT OUTPUT
 AS
 BEGIN
-    BEGIN TRAN
     INSERT INTO dbo.SecureComplexes(SecureData, SecureTypeId)
     VALUES (@ComplexValue, @Type)
 	SET @ComplexToken = SCOPE_IDENTITY()
 
-    IF (@@ERROR != 0)
-	BEGIN
-        ROLLBACK TRAN
-        RETURN 1
-	END
-    ELSE
-        COMMIT TRAN
-        RETURN 0
+    IF (@@ERROR != 0) RETURN 1
+
+    RETURN 0
 END
 GO
 

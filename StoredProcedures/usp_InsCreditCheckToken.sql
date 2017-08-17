@@ -28,18 +28,11 @@ CREATE PROCEDURE secure.usp_InsCreditCheckToken
     @CreditRequestToken BIGINT
 AS
 BEGIN
-	BEGIN TRAN
+	INSERT INTO dbo.CreditChecks(ApplicantName,CreditRequestToken)
+	VALUES (@Name, @CreditRequestToken)
 
-		INSERT INTO dbo.CreditChecks(ApplicantName,CreditRequestToken)
-		VALUES (@Name, @CreditRequestToken)
+	IF (@@ERROR != 0) RETURN 1
 
-		IF (@@ERROR != 0)
-		BEGIN
-			ROLLBACK TRAN
-			RETURN 1
-		END
-		ELSE
-            COMMIT TRAN
-			RETURN 0
+	RETURN 0
 END
 GO
