@@ -40,9 +40,8 @@ CREATE TABLE dbo.LoanApplications(
 	ApplicantName [nvarchar](50) NOT NULL,
 	DOB [date] NOT NULL,
 	SSN [nvarchar](15) NOT NULL,
-	PRIMARY KEY (LoanApplicationId)
-	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+	CONSTRAINT PK_LoanApplications_LoanApplicationId PRIMARY KEY CLUSTERED (LoanApplicationId),
+)
 GO
 
 
@@ -53,9 +52,8 @@ CREATE TABLE dbo.CreditChecks(
 	CreditCheckId [bigint] IDENTITY(1,1) NOT NULL,
 	ApplicantName [nvarchar](50) NOT NULL,
 	CreditRequest [varchar](max) NOT NULL,
-	PRIMARY KEY (CreditCheckId)
-	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+	CONSTRAINT PK_CreditChecks_CreditCheckId PRIMARY KEY CLUSTERED (CreditCheckId),
+)
 GO
 
 

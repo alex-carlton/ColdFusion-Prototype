@@ -41,21 +41,37 @@ GO
  USE SecureDataStore
  GO
 
+-- *********************************************************************************
+-- Create Secure Types Lookup Table
+-- *********************************************************************************
+CREATE TABLE dbo.SecureTypes
+(
+	SecureTypeId [int] IDENTITY(1,1) NOT NULL,
+	SecureTypeName [varchar](100) NOT NULL,
+	CONSTRAINT PK_SecureTypes_SecureTypeId PRIMARY KEY CLUSTERED (SecureTypeId)
+); 
+GO
+
 
 
 -- *********************************************************************************
--- Create Pii Text Table
+-- Create Secure Text Table
 -- *********************************************************************************
-CREATE TABLE dbo.SecureTexts(
+CREATE TABLE dbo.SecureTexts
+(
 	SecureTextId [bigint] IDENTITY(1,1) NOT NULL,
 	SecureData [varchar](100) NOT NULL,
 	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
 	SecureTypeId [int] NOT NULL,
-	PRIMARY KEY(SecureTextId)
-	)
+	CONSTRAINT PK_SecureTexts_SecureTextId PRIMARY KEY CLUSTERED (SecureTextId),
+	CONSTRAINT FK_SecureTexts_SecureTypeId_SecureTypes FOREIGN KEY (SecureTypeId)
+		REFERENCES SecureTypes(SecureTypeId)
+)
 GO
 
--- Create Pii Text indexes
+
+
+-- Create Secure Text indexes
 CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureTexts_SecureData_SecureTypeId ON dbo.SecureTexts
 (
 	SecureData ASC,
@@ -65,17 +81,20 @@ GO
 
 
 -- *********************************************************************************
--- Create Pii Date Table
+-- Create Secure Date Table
 -- *********************************************************************************
-CREATE TABLE dbo.SecureDates(
+CREATE TABLE dbo.SecureDates
+(
 	SecureDateId [bigint] IDENTITY(1,1) NOT NULL,
 	SecureData [date] NOT NULL,
 	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
 	SecureTypeId [int] NULL,
-	PRIMARY KEY(SecureDateId)
-	)
+	CONSTRAINT PK_SecureDates_SecureDateId PRIMARY KEY CLUSTERED (SecureDateId),
+	CONSTRAINT FK_SecureDates_SecureTypeId_SecureTypes FOREIGN KEY (SecureTypeId)
+		REFERENCES SecureTypes(SecureTypeId)
+);
 GO
--- Create Pii Date indexes
+-- Create Secure Date indexes
 CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureDates_SecureData_SecureTypeId ON dbo.SecureDates
 (
 	SecureData ASC,
@@ -86,26 +105,19 @@ GO
 
 
 -- *********************************************************************************
--- Create Pii DComplex ate Table
+-- Create Secure DComplex ate Table
 -- *********************************************************************************
-CREATE TABLE dbo.SecureComplexes(
+CREATE TABLE dbo.SecureComplexes
+(
 	SecureComplexId [bigint] IDENTITY(1,1) NOT NULL,
 	SecureData [varchar](max) NOT NULL,
 	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
 	SecureTypeId [int] NULL,
-	PRIMARY KEY(SecureComplexId)
-	)
+	CONSTRAINT PK_SecureComplexes_SecureComplexId PRIMARY KEY CLUSTERED (SecureComplexId),
+	CONSTRAINT FK_SecureComplexes_SecureTypeId_SecureTypes FOREIGN KEY (SecureTypeId)
+		REFERENCES SecureTypes(SecureTypeId)
+);
 GO
-
-
-
-CREATE TABLE dbo.SecureTypes(
-	SecureTypeId [int] IDENTITY(1,1) NOT NULL,
-	SecureTypeName [varchar](100) NOT NULL,
-	PRIMARY KEY (SecureTypeId)
-	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
-	GO
 
 
 INSERT INTO SecureTypes(SecureTypeName)
