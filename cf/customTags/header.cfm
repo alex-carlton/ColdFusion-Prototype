@@ -25,6 +25,7 @@
         <ul class="menu">
           <li><a href="insert.cfml">Insert</a></li>
           <li><a href="search.cfml">Search</a></li>
+          <li><a href="privileges.cfml">Data Access</a></li>
         </ul>
       </div>
     </div>
