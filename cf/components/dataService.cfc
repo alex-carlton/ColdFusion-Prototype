@@ -44,7 +44,7 @@
 		<!--- Get SSN token --->
 		<cfstoredproc procedure="usp_InsTextTokenIfNotExists" datasource="SDS">
 			<cfprocparam type="in" cfsqltype="CF_SQL_VARCHAR" maxlength="9" value="#ssn#">
-			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="1">
+			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.ssn#">
 			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="ssnToken">	
 		</cfstoredproc>
 
@@ -64,7 +64,7 @@
 		<!--- Get the DOB using token --->
 		<cfstoredproc procedure="usp_GetDateValue" datasource="SDS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnLoanResult.DOBToken#">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="2">
+			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.dob#">
 
 			<cfprocresult name="dob_ssnLoanResult">
 		</cfstoredproc>
@@ -80,7 +80,7 @@
 		<!--- Get DOB token --->
 		<cfstoredproc procedure="usp_InsDateTokenIfNotExists" datasource="SDS">
 			<cfprocparam type="in" cfsqltype="CF_SQL_DATE" value="#dob#">
-			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="2">
+			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.dob#">
 			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="dobToken">	
 		</cfstoredproc>
 
@@ -100,7 +100,7 @@
 		<!--- Get the SSN using token --->
 		<cfstoredproc procedure="usp_GetTextValue" datasource="SDS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#dobLoanResult.SSNToken#">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="1">
+			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.ssn#">
 
 			<cfprocresult name="ssn_dobLoanResult">
 		</cfstoredproc>

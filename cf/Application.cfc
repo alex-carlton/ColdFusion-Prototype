@@ -6,6 +6,14 @@
 	<cffunction name="onApplicationStart" returntype="boolean" >
 		<cfset application.dataService = createObject("component",'ColdFusion-Prototype.cf.components.dataService') />
 
+		<cfset application.secureTypes = {
+			ssn="1",
+			dob="2",
+			driversLicense="3",
+			creditCardNumber="4",
+			creditRequest="5"
+		}>	
+
 		<cfreturn true />
 	</cffunction>
 
