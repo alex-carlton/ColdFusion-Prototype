@@ -25,7 +25,7 @@ GO
 
 CREATE PROCEDURE secure.usp_InsCreditCheckToken
     @Name NVARCHAR(50),
-    @CreditRequestToken BIGINT
+    @CreditRequestToken UNIQUEIDENTIFIER
 AS
 BEGIN
 	INSERT INTO dbo.CreditChecks(ApplicantName,CreditRequestToken)

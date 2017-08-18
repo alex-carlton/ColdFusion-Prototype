@@ -26,7 +26,7 @@ GO
 CREATE PROCEDURE usp_InsTextTokenIfNotExists
    @TextValue VARCHAR(100),
    @Type INT,
-   @TextToken BIGINT OUTPUT
+   @TextToken UNIQUEIDENTIFIER OUTPUT
 AS
 BEGIN
     SELECT @TextToken = ST.SecureTextId
@@ -38,7 +38,7 @@ BEGIN
 		BEGIN
 			INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
 			VALUES (@TextValue, @Type)
-			SET @TextToken = SCOPE_IDENTITY()
+			SET @TextToken = NEWID()
 
 			IF (@@ERROR != 0) RETURN 1
 		END
@@ -50,6 +50,6 @@ BEGIN
 END
 GO
 
---DECLARE @out BIGINT
+--DECLARE @out UNIQUEIDENTIFIER
 --EXEC dbo.usp_InsTextTokenIfNotExists '553594555', 1, @out OUTPUT
 --SELECT @out

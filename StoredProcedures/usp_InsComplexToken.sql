@@ -26,12 +26,12 @@ GO
 CREATE PROCEDURE usp_InsComplexToken
     @ComplexValue VARCHAR(MAX),
     @Type INT,
-    @ComplexToken BIGINT OUTPUT
+    @ComplexToken UNIQUEIDENTIFIER OUTPUT
 AS
 BEGIN
     INSERT INTO dbo.SecureComplexes(SecureData, SecureTypeId)
     VALUES (@ComplexValue, @Type)
-	SET @ComplexToken = SCOPE_IDENTITY()
+	SET @ComplexToken = NEWID()
 
     IF (@@ERROR != 0) RETURN 1
 

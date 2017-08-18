@@ -29,7 +29,7 @@ CREATE PROCEDURE usp_InsCreditCheck
 AS
 BEGIN TRAN
 	-- Create local variable
-    DECLARE @CreditRequestToken BIGINT
+    DECLARE @CreditRequestToken UNIQUEIDENTIFIER
 	DECLARE @ErrorValue INT
 
 	EXEC @ErrorValue = SecureDataStore.dbo.usp_InsComplexToken @CreditRequest, 4, @CreditRequestToken OUTPUT

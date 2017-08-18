@@ -46,8 +46,8 @@ GO
 -- *********************************************************************************
 CREATE TABLE dbo.SecureTypes
 (
-	SecureTypeId [int] IDENTITY(1,1) NOT NULL,
-	SecureTypeName [varchar](100) NOT NULL,
+	SecureTypeId [INT] IDENTITY(1,1) NOT NULL,
+	SecureTypeName [VARCHAR](100) NOT NULL,
 	CONSTRAINT PK_SecureTypes_SecureTypeId PRIMARY KEY CLUSTERED (SecureTypeId)
 ); 
 GO
@@ -59,10 +59,10 @@ GO
 -- *********************************************************************************
 CREATE TABLE dbo.SecureTexts
 (
-	SecureTextId [bigint] IDENTITY(1,1) NOT NULL,
-	SecureData [varchar](100) NOT NULL,
-	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-	SecureTypeId [int] NOT NULL,
+	SecureTextId [UNIQUEIDENTIFIER] DEFAULT NEWID() NOT NULL,
+	SecureData [VARCHAR](100) NOT NULL,
+	InsertTimeStamp [DATETIMEOFFSET] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+	SecureTypeId [INT] NOT NULL,
 	CONSTRAINT PK_SecureTexts_SecureTextId PRIMARY KEY CLUSTERED (SecureTextId),
 	CONSTRAINT FK_SecureTexts_SecureTypeId_SecureTypes FOREIGN KEY (SecureTypeId)
 		REFERENCES SecureTypes(SecureTypeId)
@@ -85,10 +85,10 @@ GO
 -- *********************************************************************************
 CREATE TABLE dbo.SecureDates
 (
-	SecureDateId [bigint] IDENTITY(1,1) NOT NULL,
-	SecureData [date] NOT NULL,
-	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-	SecureTypeId [int] NULL,
+	SecureDateId [UNIQUEIDENTIFIER] DEFAULT NEWID() NOT NULL,
+	SecureData [DATE] NOT NULL,
+	InsertTimeStamp [DATETIMEOFFSET] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+	SecureTypeId [INT] NULL,
 	CONSTRAINT PK_SecureDates_SecureDateId PRIMARY KEY CLUSTERED (SecureDateId),
 	CONSTRAINT FK_SecureDates_SecureTypeId_SecureTypes FOREIGN KEY (SecureTypeId)
 		REFERENCES SecureTypes(SecureTypeId)
@@ -109,10 +109,10 @@ GO
 -- *********************************************************************************
 CREATE TABLE dbo.SecureComplexes
 (
-	SecureComplexId [bigint] IDENTITY(1,1) NOT NULL,
-	SecureData [varchar](max) NOT NULL,
-	InsertTimeStamp [datetimeoffset] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-	SecureTypeId [int] NULL,
+	SecureComplexId [UNIQUEIDENTIFIER] DEFAULT NEWID() NOT NULL,
+	SecureData [VARCHAR](MAX) NOT NULL,
+	InsertTimeStamp [DATETIMEOFFSET] NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+	SecureTypeId [INT] NULL,
 	CONSTRAINT PK_SecureComplexes_SecureComplexId PRIMARY KEY CLUSTERED (SecureComplexId),
 	CONSTRAINT FK_SecureComplexes_SecureTypeId_SecureTypes FOREIGN KEY (SecureTypeId)
 		REFERENCES SecureTypes(SecureTypeId)

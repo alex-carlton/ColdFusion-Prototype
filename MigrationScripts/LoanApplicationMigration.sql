@@ -1,8 +1,8 @@
 USE [ApplicationDataStore]
 GO
 
-ALTER TABLE LoanApplications ADD DOBToken BIGINT NULL
-ALTER TABLE LoanApplications ADD SSNToken BIGINT NULL
+ALTER TABLE LoanApplications ADD DOBToken UNIQUEIDENTIFIER NULL
+ALTER TABLE LoanApplications ADD SSNToken UNIQUEIDENTIFIER NULL
 GO
 
 INSERT INTO [SecureDataStore].dbo.SecureDates(SecureData, SecureTypeId)
@@ -37,8 +37,8 @@ WHERE st.SecureData = LoanApplications.SSN
 AND SecureTypeId = 1
 GO
 
-ALTER TABLE LoanApplications ALTER COLUMN DOBToken BIGINT NOT NULL
-ALTER TABLE LoanApplications ALTER COLUMN SSNToken BIGINT NOT NULL
+ALTER TABLE LoanApplications ALTER COLUMN DOBToken UNIQUEIDENTIFIER NOT NULL
+ALTER TABLE LoanApplications ALTER COLUMN SSNToken UNIQUEIDENTIFIER NOT NULL
 
 CREATE INDEX IX_LoanApplications_DOBToken ON LoanApplications (DOBToken)
 CREATE INDEX IX_LoanApplications_SSNToken ON LoanApplications (SSNToken)

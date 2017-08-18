@@ -30,8 +30,8 @@ CREATE PROCEDURE usp_InsLoanApplication
 AS
 BEGIN TRAN
 	-- Create local variable
-    DECLARE @SSNToken BIGINT
-	DECLARE @DateOfBirthToken BIGINT
+    DECLARE @SSNToken UNIQUEIDENTIFIER
+	DECLARE @DateOfBirthToken UNIQUEIDENTIFIER
     DECLARE @ErrorValue INT
 
 	EXEC @ErrorValue = SecureDataStore.dbo.usp_InsTextTokenIfNotExists @SSN, 1, @SSNToken OUTPUT

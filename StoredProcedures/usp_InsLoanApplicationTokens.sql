@@ -25,8 +25,8 @@ GO
 
 CREATE PROCEDURE secure.usp_InsLoanApplicationTokens
     @Name NVARCHAR(50),
-    @DateOfBirthToken BIGINT,
-    @SSNToken BIGINT
+    @DateOfBirthToken UNIQUEIDENTIFIER,
+    @SSNToken UNIQUEIDENTIFIER
 AS
 BEGIN
 	INSERT INTO dbo.LoanApplications (ApplicantName,DOBToken,SSNToken)

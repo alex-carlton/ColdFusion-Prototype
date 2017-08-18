@@ -26,7 +26,7 @@ GO
 CREATE PROCEDURE usp_InsDateTokenIfNotExists
    @DateValue DATE,
    @Type INT,
-   @DateToken BIGINT OUTPUT
+   @DateToken UNIQUEIDENTIFIER OUTPUT
 AS
 BEGIN
     SELECT @DateToken = SD.SecureDateId
@@ -38,7 +38,7 @@ BEGIN
 		BEGIN
 			INSERT INTO dbo.SecureDates(SecureData, SecureTypeId)
 			VALUES (@DateValue, @Type)
-			SET @DateToken = SCOPE_IDENTITY()
+			SET @DateToken = NEWID()
 
 			IF (@@ERROR != 0) RETURN 1
 		END
@@ -50,6 +50,6 @@ BEGIN
 END
 GO
 
---DECLARE @out BIGINT
+--DECLARE @out UNIQUEIDENTIFIER
 --EXEC dbo.usp_InsDateTokenIfNotExists '1985-08-07', 2, @out OUTPUT
 --SELECT @out

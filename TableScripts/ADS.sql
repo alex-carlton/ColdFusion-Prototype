@@ -15,7 +15,7 @@ USE [master]
 GO
 
 /****** Object:  Database [ApplicationDataStore]    Script Date: 8/14/2017 2:35:57 PM ******/
-IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ApplicationDataStore')
+IF EXISTS (SELECT * FROM sys.databases WHERE [name] = 'ApplicationDataStore')
 BEGIN
 	ALTER DATABASE ApplicationDataStore
 	SET SINGLE_USER
@@ -36,10 +36,10 @@ GO
 -- Create loan application table for proto
 -- *********************************************************************************
 CREATE TABLE dbo.LoanApplications(
-	LoanApplicationId [bigint] IDENTITY(1,1) NOT NULL,
-	ApplicantName [nvarchar](50) NOT NULL,
-	DOB [date] NOT NULL,
-	SSN [nvarchar](15) NOT NULL,
+	LoanApplicationId [BIGINT] IDENTITY(1,1) NOT NULL,
+	ApplicantName [NVARCHAR](50) NOT NULL,
+	DOB [DATE] NOT NULL,
+	SSN [NVARCHAR](15) NOT NULL,
 	CONSTRAINT PK_LoanApplications_LoanApplicationId PRIMARY KEY CLUSTERED (LoanApplicationId),
 )
 GO
@@ -49,9 +49,9 @@ GO
 -- Create credit check table for proto
 -- *********************************************************************************
 CREATE TABLE dbo.CreditChecks(
-	CreditCheckId [bigint] IDENTITY(1,1) NOT NULL,
-	ApplicantName [nvarchar](50) NOT NULL,
-	CreditRequest [varchar](max) NOT NULL,
+	CreditCheckId [BIGINT] IDENTITY(1,1) NOT NULL,
+	ApplicantName [NVARCHAR](50) NOT NULL,
+	CreditRequest [VARCHAR](MAX) NOT NULL,
 	CONSTRAINT PK_CreditChecks_CreditCheckId PRIMARY KEY CLUSTERED (CreditCheckId),
 )
 GO
