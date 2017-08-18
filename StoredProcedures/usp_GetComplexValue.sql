@@ -24,7 +24,7 @@ IF(OBJECT_ID('usp_GetComplexValue')) is NOT NULL
 GO
 
 CREATE PROCEDURE usp_GetComplexValue
-   @Key BIGINT,
+   @Key UNIQUEIDENTIFIER,
    @Type INT
 AS
     SELECT SC.SecureData

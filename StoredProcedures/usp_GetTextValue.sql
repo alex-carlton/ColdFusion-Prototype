@@ -24,7 +24,7 @@ IF(OBJECT_ID('usp_GetTextValue')) is NOT NULL
 GO
 
 CREATE PROCEDURE usp_GetTextValue
-   @Key BIGINT,
+   @Key UNIQUEIDENTIFIER,
    @Type INT
 AS
     SELECT ST.SecureData

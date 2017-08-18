@@ -17,15 +17,13 @@ INTO @creditRequest, @creditRequestToken
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
-	SET @guid = NEWID();
-
 	INSERT INTO [SecureDataStore].dbo.SecureComplexes (SecureData, SecureTypeId)
 	SELECT @creditRequest, 5
-	
+
 	UPDATE CreditChecks
-	SET CreditRequestToken = @guid
+	SET CreditRequestToken = NEWID()
 	WHERE CURRENT OF CreditChecksMigrationCursor
-	
+
 	FETCH NEXT FROM CreditChecksMigrationCursor
 	INTO @creditRequest, @creditRequestToken
 END

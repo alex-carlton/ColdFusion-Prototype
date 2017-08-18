@@ -24,7 +24,7 @@ IF(OBJECT_ID('usp_GetLoanApplicationBySSN')) is NOT NULL
 GO
 
 CREATE PROCEDURE usp_GetLoanApplicationBySSN
-   @SSNToken BIGINT
+   @SSNToken UNIQUEIDENTIFIER
 AS
 	SELECT LA.ApplicantName, LA.DOBToken
 	FROM LoanApplications AS LA

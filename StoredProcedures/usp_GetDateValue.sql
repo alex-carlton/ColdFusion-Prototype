@@ -24,7 +24,7 @@ IF(OBJECT_ID('usp_GetDateValue')) is NOT NULL
 GO
 
 CREATE PROCEDURE usp_GetDateValue
-   @Key BIGINT,
+   @Key UNIQUEIDENTIFIER,
    @Type INT
 AS
     SELECT SD.SecureData
