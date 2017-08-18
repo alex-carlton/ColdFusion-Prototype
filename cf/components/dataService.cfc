@@ -42,71 +42,53 @@
 		<cfargument name="ssn" required="true" type="string">
 		
 		<!--- Get SSN token --->
-		<cfstoredproc procedure="usp_InsTextTokenIfNotExists" datasource="SDS">
-			<cfprocparam type="in" cfsqltype="CF_SQL_VARCHAR" maxlength="9" value="#ssn#">
-			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.ssn#">
-			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="ssnToken">	
-		</cfstoredproc>
+		<cfset ssnToken = application.secureDataService.insertTextToken(ssn, application.secureTypes.ssn)>
 
 		<!--- Get Name and DOB token --->
 		<cfstoredproc procedure="usp_GetLoanApplicationBySSN" datasource="ADS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnToken#">
 
-			<cfprocresult name="ssnLoanResult">
+			<cfprocresult name="qLoan">
 		</cfstoredproc>
 
 		<!--- Check that a result has been returned --->
-		<cfif ssnLoanResult.recordCount EQ 0>
-			<cfset ssnLoan={name="", dob=""}>
-			<cfreturn ssnLoan>
+		<cfif qLoan.recordCount EQ 0>
+			<cfset loan={name="", dob=""}>
+			<cfreturn loan>
 		</cfif>
 
 		<!--- Get the DOB using token --->
-		<cfstoredproc procedure="usp_GetDateValue" datasource="SDS">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnLoanResult.DOBToken#">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.dob#">
+		<cfset loanDOB = application.secureDataService.getDate(qLoan.DOBToken, application.secureTypes.dob) >
 
-			<cfprocresult name="dob_ssnLoanResult">
-		</cfstoredproc>
+		<cfset loan={name=qLoan.ApplicantName, dob=loanDOB}>
 
-		<cfset ssnLoan={name=ssnLoanResult.ApplicantName, dob=dob_ssnLoanResult.SecureData}>
-
-		<cfreturn ssnLoan>
+		<cfreturn loan>
 	</cffunction>
 
 	<cffunction name="searchDOB" access="remote" output="true" returntype="struct">
 		<cfargument name="dob" required="true" type="date">
 
 		<!--- Get DOB token --->
-		<cfstoredproc procedure="usp_InsDateTokenIfNotExists" datasource="SDS">
-			<cfprocparam type="in" cfsqltype="CF_SQL_DATE" value="#dob#">
-			<cfprocparam type="in" cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.dob#">
-			<cfprocparam type="out" cfsqltype="CF_SQL_INTEGER" variable="dobToken">	
-		</cfstoredproc>
+		<cfset dobToken = application.secureDataService.insertDateToken(dob, application.secureTypes.dob)>
 
 		<!--- Get name and SSN token --->
 		<cfstoredproc procedure="usp_GetLoanApplicationByDOB" datasource="ADS">
 			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#dobToken#">
 
-			<cfprocresult name="dobLoanResult">
+			<cfprocresult name="qLoan">
 		</cfstoredproc>
 
 		<!--- Check that a result has been returned --->
-		<cfif dobLoanResult.recordCount EQ 0>
-			<cfset dobLoan={name="", ssn=""}>
-			<cfreturn dobLoan>
+		<cfif qLoan.recordCount EQ 0>
+			<cfset loan={name="", ssn=""}>
+			<cfreturn loan>
 		</cfif>
 
 		<!--- Get the SSN using token --->
-		<cfstoredproc procedure="usp_GetTextValue" datasource="SDS">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#dobLoanResult.SSNToken#">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#application.secureTypes.ssn#">
+		<cfset loanSSN = application.secureDataService.getDate(qLoan.DOBToken, application.secureTypes.dob) >
 
-			<cfprocresult name="ssn_dobLoanResult">
-		</cfstoredproc>
+		<cfset loan={name=qLoan.ApplicantName, ssn=loanSSN}>
 
-		<cfset dobLoan={name=dobLoanResult.ApplicantName, ssn=ssn_dobLoanResult.SecureData}>
-
-		<cfreturn dobLoan>
+		<cfreturn loan>
 	</cffunction>
 </cfcomponent>
