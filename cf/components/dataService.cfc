@@ -46,7 +46,7 @@
 
 		<!--- Get Name and DOB token --->
 		<cfstoredproc procedure="usp_GetLoanApplicationBySSN" datasource="ADS">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#ssnToken#">
+			<cfprocparam cfsqltype="CF_SQL_IDSTAMP" value="#ssnToken#">
 
 			<cfprocresult name="qLoan">
 		</cfstoredproc>
@@ -73,7 +73,7 @@
 
 		<!--- Get name and SSN token --->
 		<cfstoredproc procedure="usp_GetLoanApplicationByDOB" datasource="ADS">
-			<cfprocparam cfsqltype="CF_SQL_INTEGER" value="#dobToken#">
+			<cfprocparam cfsqltype="CF_SQL_IDSTAMP" value="#dobToken#">
 
 			<cfprocresult name="qLoan">
 		</cfstoredproc>
@@ -85,7 +85,7 @@
 		</cfif>
 
 		<!--- Get the SSN using token --->
-		<cfset loanSSN = application.secureDataService.getDate(qLoan.DOBToken, application.secureTypes.dob) >
+		<cfset loanSSN = application.secureDataService.getText(qLoan.SSNToken, application.secureTypes.ssn) >
 
 		<cfset loan={name=qLoan.ApplicantName, ssn=loanSSN}>
 
