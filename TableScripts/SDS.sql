@@ -38,8 +38,8 @@ GO
 CREATE DATABASE SecureDataStore
 GO
 
- USE SecureDataStore
- GO
+USE SecureDataStore
+GO
 
 -- *********************************************************************************
 -- Create Secure Types Lookup Table
@@ -72,10 +72,10 @@ GO
 
 
 -- Create Secure Text indexes
-CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureTexts_SecureData_SecureTypeId ON dbo.SecureTexts
+CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureTexts_SecureTypeId_SecureData ON dbo.SecureTexts
 (
-	SecureData ASC,
-	SecureTypeId ASC
+	SecureTypeId ASC,
+	SecureData ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
@@ -95,10 +95,10 @@ CREATE TABLE dbo.SecureDates
 );
 GO
 -- Create Secure Date indexes
-CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureDates_SecureData_SecureTypeId ON dbo.SecureDates
+CREATE UNIQUE NONCLUSTERED INDEX IX_U_SecureDates_SecureTypeId_SecureData ON dbo.SecureDates
 (
-	SecureData ASC,
-	SecureTypeId ASC
+	SecureTypeId ASC,
+	SecureData ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 

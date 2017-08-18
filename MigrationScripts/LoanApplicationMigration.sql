@@ -41,6 +41,7 @@ ALTER TABLE LoanApplications ALTER COLUMN DOBToken BIGINT NOT NULL
 ALTER TABLE LoanApplications ALTER COLUMN SSNToken BIGINT NOT NULL
 
 CREATE INDEX IX_LoanApplications_DOBToken ON LoanApplications (DOBToken)
+CREATE INDEX IX_LoanApplications_SSNToken ON LoanApplications (SSNToken)
 
 ALTER TABLE LoanApplications DROP COLUMN DOB
 ALTER TABLE LoanApplications DROP COLUMN SSN
