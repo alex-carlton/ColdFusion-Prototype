@@ -36,9 +36,11 @@ BEGIN
     --Conditional for Inserting
     IF(@DateToken IS NULL)
 		BEGIN
-			INSERT INTO dbo.SecureDates(SecureData, SecureTypeId)
-			VALUES (@DateValue, @Type)
 			SET @DateToken = NEWID()
+
+			INSERT INTO dbo.SecureDates(SecureDateId,SecureData, SecureTypeId)
+			OUTPUT @DateToken
+			VALUES (@DateValue, @Type)
 
 			IF (@@ERROR != 0) RETURN 1
 		END

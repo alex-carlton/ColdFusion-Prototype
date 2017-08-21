@@ -36,9 +36,11 @@ BEGIN
     --Conditional for Inserting
     IF(@TextToken IS NULL)
 		BEGIN
-			INSERT INTO dbo.SecureTexts(SecureData, SecureTypeId)
-			VALUES (@TextValue, @Type)
 			SET @TextToken = NEWID()
+
+			INSERT INTO dbo.SecureTexts(SecureTextId, SecureData, SecureTypeId)
+			OUTPUT @TextToken
+			VALUES (@TextToken, @TextValue, @Type)
 
 			IF (@@ERROR != 0) RETURN 1
 		END
@@ -51,5 +53,5 @@ END
 GO
 
 --DECLARE @out UNIQUEIDENTIFIER
---EXEC dbo.usp_InsTextTokenIfNotExists '553594555', 1, @out OUTPUT
+--EXEC dbo.usp_InsTextTokenIfNotExists '543594595', 1, @out OUTPUT
 --SELECT @out
