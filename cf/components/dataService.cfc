@@ -42,7 +42,7 @@
 		<cfargument name="ssn" required="true" type="string">
 		
 		<!--- Get SSN token --->
-		<cfset ssnToken = application.secureDataService.insertTextToken(ssn, application.secureTypes.ssn)>
+		<cfset ssnToken = application.secureDataService.insertTextTokenIfNotExists(ssn, application.secureTypes.ssn)>
 
 		<!--- Get Name and DOB token --->
 		<cfstoredproc procedure="usp_GetLoanApplicationBySSN" datasource="ADS">
@@ -69,7 +69,7 @@
 		<cfargument name="dob" required="true" type="date">
 
 		<!--- Get DOB token --->
-		<cfset dobToken = application.secureDataService.insertDateToken(dob, application.secureTypes.dob)>
+		<cfset dobToken = application.secureDataService.insertDateTokenIfNotExists(dob, application.secureTypes.dob)>
 
 		<!--- Get name and SSN token --->
 		<cfstoredproc procedure="usp_GetLoanApplicationByDOB" datasource="ADS">

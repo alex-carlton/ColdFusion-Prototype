@@ -1,5 +1,5 @@
 <cfcomponent output="false">
-	<cffunction name="insertTextToken" access="remote" output="true" returntype="string">
+	<cffunction name="insertTextTokenIfNotExists" access="remote" output="true" returntype="string">
 		<cfargument name="text" required="true" type="string">
 		<cfargument name="type" required="true" type="numeric">
 
@@ -12,7 +12,7 @@
 		<cfreturn textToken>
 	</cffunction>
 
-	<cffunction name="insertDateToken" access="remote" output="true" returntype="string">
+	<cffunction name="insertDateTokenIfNotExists" access="remote" output="true" returntype="string">
 		<cfargument name="date" required="true" type="date">
 		<cfargument name="type" required="true" type="numeric">
 		
