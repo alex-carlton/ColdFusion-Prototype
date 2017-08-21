@@ -40,7 +40,7 @@ BEGIN
 
 			INSERT INTO dbo.SecureDates(SecureDateId,SecureData, SecureTypeId)
 			OUTPUT @DateToken
-			VALUES (@DateValue, @Type)
+			VALUES (DateToken, @DateValue, @Type)
 
 			IF (@@ERROR != 0) RETURN 1
 		END
