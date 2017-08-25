@@ -31,5 +31,3 @@ AS
     FROM dbo.SecureTexts AS ST
     WHERE ST.SecureTextId = @Key AND ST.SecureTypeId = @Type;
 GO
-
---EXEC dbo.usp_GetTextValue 10, 1

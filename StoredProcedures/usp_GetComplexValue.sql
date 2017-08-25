@@ -31,5 +31,3 @@ AS
     FROM dbo.SecureComplexes AS SC
     WHERE SC.SecureComplexId = @Key AND SC.SecureTypeId = @Type;
 GO
-
---EXEC dbo.usp_GetComplexValue 3, 4

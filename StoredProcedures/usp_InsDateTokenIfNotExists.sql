@@ -53,5 +53,5 @@ END
 GO
 
 --DECLARE @out UNIQUEIDENTIFIER
---EXEC dbo.usp_InsDateTokenIfNotExists '1985-08-07', 2, @out OUTPUT
+--EXEC dbo.usp_InsDateTokenIfNotExists '1975-08-07', 2, @out OUTPUT
 --SELECT @out

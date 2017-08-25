@@ -30,5 +30,3 @@ AS
 	FROM LoanApplications AS LA
 	WHERE LA.SSNToken = @SSNToken
 GO
-
--- EXEC usp_GetLoanApplicationBySSN 26

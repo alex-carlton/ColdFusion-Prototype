@@ -31,5 +31,3 @@ AS
     FROM dbo.SecureDates AS SD
     WHERE SD.SecureDateId = @Key AND SD.SecureTypeId = @Type;
 GO
-
---EXEC dbo.usp_GetDateValue 8, 2

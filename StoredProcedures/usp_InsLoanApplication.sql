@@ -12,8 +12,8 @@
 -- <developername> mm/dd/yyyy
 --
 -- Modification History:
--- Mod by:			Date Mod:	Mod id:		Mod description:
--- James Aden		08/16/2017	N/A			Updated to meet Clayton database standards
+-- Mod by:          Date Mod:   Mod id:     Mod description:
+-- James Aden       08/16/2017  N/A         Updated to meet Clayton database standards
 --=======================================================================================
 
 USE SecureDataStore;
@@ -29,19 +29,19 @@ CREATE PROCEDURE usp_InsLoanApplication
    @SSN NVARCHAR(9)
 AS
 BEGIN TRAN
-	-- Create local variable
+    -- Create local variable
     DECLARE @SSNToken UNIQUEIDENTIFIER
-	DECLARE @DateOfBirthToken UNIQUEIDENTIFIER
+    DECLARE @DateOfBirthToken UNIQUEIDENTIFIER
     DECLARE @ErrorValue INT
 
-	EXEC @ErrorValue = SecureDataStore.dbo.usp_InsTextTokenIfNotExists @SSN, 1, @SSNToken OUTPUT
-	IF (@ErrorValue != 0) ROLLBACK TRAN
+    EXEC @ErrorValue = SecureDataStore.dbo.usp_InsTextTokenIfNotExists @SSN, 1, @SSNToken OUTPUT
+    IF (@ErrorValue != 0) ROLLBACK TRAN
 
-	EXEC @ErrorValue = SecureDataStore.dbo.usp_InsDateTokenIfNotExists @DateOfBirth, 2, @DateOfBirthToken OUTPUT
-	IF (@ErrorValue != 0) ROLLBACK TRAN
+    EXEC @ErrorValue = SecureDataStore.dbo.usp_InsDateTokenIfNotExists @DateOfBirth, 2, @DateOfBirthToken OUTPUT
+    IF (@ErrorValue != 0) ROLLBACK TRAN
 
-	EXEC @ErrorValue = ApplicationDataStore.secure.usp_InsLoanApplicationTokens @Name, @DateOfBirthToken, @SSNToken
-	IF (@ErrorValue != 0) ROLLBACK TRAN
+    EXEC @ErrorValue = ApplicationDataStore.secure.usp_InsLoanApplicationTokens @Name, @DateOfBirthToken, @SSNToken
+    IF (@ErrorValue != 0) ROLLBACK TRAN
 
 COMMIT TRAN
 
